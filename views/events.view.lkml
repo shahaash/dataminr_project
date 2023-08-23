@@ -12918,6 +12918,11 @@ view: events {
     group_label: "Principal Location Region Coordinates"
     group_item_label: "Longitude"
   }
+  dimension: event__location{
+    type: location
+    sql_latitude: ${principal__location__region_coordinates__latitude} ;;
+    sql_longitude: ${principal__location__region_coordinates__longitude} ;;
+  }
   dimension: principal__location__region_latitude {
     type: number
     sql: ${TABLE}.principal.location.region_latitude ;;
@@ -50893,6 +50898,27 @@ view: events__about__labels {
   }
 }
 
+view: events__about__labels__alert_type_name {
+
+  dimension: key {
+    type: string
+    sql: ${TABLE}.key ;;
+  }
+  dimension: rbac_enabled {
+    type: yesno
+    sql: ${TABLE}.rbac_enabled ;;
+  }
+  dimension: source {
+    type: string
+    sql: ${TABLE}.source ;;
+  }
+  dimension: value {
+    type: string
+    sql: ${TABLE}.value ;;
+  }
+}
+
+
 view: events__intermediary__mac {
 
   dimension: events__intermediary__mac {
@@ -50942,6 +50968,26 @@ view: events__target__file__names {
 }
 
 view: events__target__labels {
+
+  dimension: key {
+    type: string
+    sql: ${TABLE}.key ;;
+  }
+  dimension: rbac_enabled {
+    type: yesno
+    sql: ${TABLE}.rbac_enabled ;;
+  }
+  dimension: source {
+    type: string
+    sql: ${TABLE}.source ;;
+  }
+  dimension: value {
+    type: string
+    sql: ${TABLE}.value ;;
+  }
+}
+
+view: events__target__labels_publisher_category_name {
 
   dimension: key {
     type: string

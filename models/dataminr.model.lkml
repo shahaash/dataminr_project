@@ -167,6 +167,12 @@ explore: events {
       sql: LEFT JOIN UNNEST(${events__about.labels}) as events__about__labels ;;
       relationship: one_to_many
     }
+    join: events__about__labels__alert_type_name {
+      view_label: "Events: About Labels Alert Type Name"
+      sql: LEFT JOIN UNNEST(${events__about.labels}) as events__about__labels__alert_type_name ON ${events__about__labels__alert_type_name.key} = 'alertType_name' ;;
+      fields: [events__about__labels__alert_type_name.value]
+      relationship: one_to_many
+    }
     join: events__intermediary__mac {
       view_label: "Events: Intermediary Mac"
       sql: LEFT JOIN UNNEST(${events__intermediary.mac}) as events__intermediary__mac ;;
@@ -200,6 +206,12 @@ explore: events {
     join: events__target__labels {
       view_label: "Events: Target Labels"
       sql: LEFT JOIN UNNEST(${events.target__labels}) as events__target__labels ;;
+      relationship: one_to_many
+    }
+    join: events__target__labels_publisher_category_name {
+      view_label: "Events: Target Labels Publisher Category Name"
+      sql: LEFT JOIN UNNEST(${events.target__labels}) as events__target__labels_publisher_category_name ON ${events__target__labels_publisher_category_name.key} = 'publisherCategory_name' ;;
+      fields: [events__target__labels_publisher_category_name.value]
       relationship: one_to_many
     }
     join: events__network__email__bcc {
