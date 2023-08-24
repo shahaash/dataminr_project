@@ -139,7 +139,21 @@ explore: events {
     }
     join: events__security_result {
       view_label: "Events: Security Result"
-      sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result ;;
+      sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result;;
+      # sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result ON  ARRAY_LENGTH(${events__security_result.category_details}) > 0;;
+      # sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result ON ${events__security_result.about__resource__name} IS NOT NULL;;
+      relationship: one_to_many
+    }
+
+    join: events__security_result_for__category_details {
+      view_label: "Events: Security Result For Category Details"
+      sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result_for__category_details ON  ARRAY_LENGTH(${events__security_result_for__category_details.category_details}) > 0;;
+      relationship: one_to_many
+    }
+    join: events__security_result_for__about_resource_name {
+      view_label: "Events: Security Result For About Resource Name"
+      # sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result ON  ARRAY_LENGTH(${events__security_result.category_details}) > 0;;
+      sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result_for__about_resource_name ON ${events__security_result_for__about_resource_name.about__resource__name} IS NOT NULL;;
       relationship: one_to_many
     }
     join: events__target__asset__ip {
@@ -1589,6 +1603,12 @@ explore: events {
       sql: LEFT JOIN UNNEST(${events__security_result.category_details}) as events__security_result__category_details ;;
       relationship: one_to_many
     }
+    join: events__security_result__new_category_details {
+      view_label: "Events: Security Result New Category Details"
+      sql: LEFT JOIN UNNEST(${events__security_result_for__category_details.category_details}) as events__security_result__new_category_details ;;
+      relationship: one_to_many
+    }
+
     join: events__security_result__verdict_info {
       view_label: "Events: Security Result Verdict Info"
       sql: LEFT JOIN UNNEST(${events__security_result.verdict_info}) as events__security_result__verdict_info ;;

@@ -29479,6 +29479,7 @@ view: events {
 
 }
 
+
 view: events__about {
 
   dimension: administrative_domain {
@@ -50846,6 +50847,21 @@ view: events__security_result {
   }
 }
 
+view: events__security_result_for__about_resource_name {
+  dimension: about__resource__name {
+    type: string
+    sql: ${TABLE}.about.resource.name ;;
+    group_label: "About Resource"
+    group_item_label: "Name"
+  }
+}
+
+view: events__security_result_for__category_details {
+  dimension: category_details {
+    sql: category_details ;;
+  }
+}
+
 view: events__target__asset__ip {
 
   dimension: events__target__asset__ip {
@@ -64685,6 +64701,14 @@ view: events__security_result__category_details {
   dimension: events__security_result__category_details {
     type: string
     sql: events__security_result__category_details ;;
+  }
+}
+
+view: events__security_result__new_category_details {
+
+  dimension: events__security_result__new_category_details {
+    type: string
+    sql: events__security_result__new_category_details ;;
   }
 }
 
