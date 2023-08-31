@@ -138,6 +138,12 @@ explore: events {
       sql: LEFT JOIN UNNEST(${events__intermediary.ip}) as events__intermediary__ip ;;
       relationship: one_to_many
     }
+    join: events__security_result_for {
+      view_label: "Events: Security Result for"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${events.metadata__id}=${events__security_result_for.log__id} ;;
+    }
     join: events__security_result {
       view_label: "Events: Security Result"
       sql: LEFT JOIN UNNEST(${events.security_result}) as events__security_result;;

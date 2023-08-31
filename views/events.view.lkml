@@ -12938,6 +12938,8 @@ view: events {
     type: location
     sql_latitude: ${principal__location__region_coordinates__latitude} ;;
     sql_longitude: ${principal__location__region_coordinates__longitude} ;;
+    group_label: "Event Location"
+    group_item_label: "Coordinates"
   }
   dimension: principal__location__region_latitude {
     type: number
@@ -36555,6 +36557,11 @@ view: events__principal__ip {
     type: string
     sql: events__principal__ip ;;
   }
+
+  dimension: events__principal__ip__regex {
+    type: string
+    sql: REGEXP_EXTRACT(${events__principal__ip},r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$') ;;
+  }
 }
 
 view: events__observer__mac {
@@ -43643,6 +43650,38 @@ view: events__intermediary__ip {
   }
 }
 
+view: events__security_result_for {
+  derived_table: {
+    sql: (SELECT
+            events.metadata.id  AS events_metadata__id,
+            events__security_result.about.file.sha1  AS events__security_result_about__file__hash
+        FROM `datalake.events`  AS events
+        LEFT JOIN UNNEST(events.security_result) as events__security_result
+        WHERE (events.metadata.log_type = "DATAMINR_ALERT" AND events__security_result.about.file.sha1 IS NOT NULL )
+        GROUP BY 1, 2 ORDER BY 1)
+        UNION ALL
+        (SELECT
+            events.metadata.id  AS events_metadata__id,
+            events__security_result.about.file.sha256  AS events__security_result_about__file__hash
+        FROM `datalake.events`  AS events
+        LEFT JOIN UNNEST(events.security_result) as events__security_result
+        WHERE (events.metadata.log_type = "DATAMINR_ALERT" AND events__security_result.about.file.sha256 IS NOT NULL)
+        GROUP BY 1, 2 ORDER BY 1) ;;
+  }
+  dimension: log__id{
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+    group_label: "About File Combined"
+    group_item_label: "Log ID"
+  }
+  dimension: about__file__hash {
+    type: string
+    sql: ${TABLE}.events__security_result_about__file__hash ;;
+    group_label: "About File Combined"
+    group_item_label: "Hash value"
+  }
+}
+
 view: events__security_result {
 
   dimension: about__administrative_domain {
@@ -50131,6 +50170,12 @@ view: events__security_result {
     sql: ${TABLE}.about.url ;;
     group_label: "About"
     group_item_label: "URL"
+  }
+  dimension: about__url__domain {
+    type: string
+    sql: REGEXP_REPLACE(REGEXP_REPLACE(${TABLE}.about.url, r'\[(\.)\]', '\\1'), r'((.*https*:\/\/))*((w*\.))*(([a-zA-Z0-9-]+)\.)*((\w+\.(co|com|org|gov|int|edu|mil|net)\.\w{1,3})|([a-zA-Z0-9-]+\.\w+)|([a-zA-Z0-9-]+\.\w+\.\w+))(\/|$).*', '\\7') ;;
+    group_label: "About"
+    group_item_label: "URL Domain"
   }
   dimension: about__user__account_expiration_time__nanos {
     type: number
