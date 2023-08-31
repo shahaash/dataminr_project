@@ -167,6 +167,22 @@ view: events {
     datatype: epoch
     sql:  ${metadata__event_timestamp__seconds} ;;
   }
+  dimension: event_timestamp_in_week {
+    type: date_week
+    datatype: epoch
+    sql: ${metadata__event_timestamp__seconds} ;;
+  }
+
+  dimension: event_timestamp_temp {
+    type: date
+    sql: ${event_timestamp_in_week} ;;
+  }
+
+  measure: min_event_timestamp_in_week{
+    type: min
+    sql: ${event_timestamp_temp} ;;
+  }
+
   dimension: metadata__event_type {
     type: number
     sql: ${TABLE}.metadata.event_type ;;
@@ -29479,6 +29495,33 @@ view: events {
 
 }
 
+
+view: week_trend_table {
+  derived_table: {
+    sql:  SELECT events__security_result__new_category_details_events__security_result__new_category_details,count_of_metadata_product_log_id FROM (SELECT *, ROW_NUMBER() OVER(PARTITION BY events__security_result__new_category_details_events__security_result__new_category_details ORDER BY events_event_timestamp_date_week) AS row_num FROM (SELECT
+    events__security_result__new_category_details  AS events__security_result__new_category_details_events__security_result__new_category_details,
+        (FORMAT_TIMESTAMP('%F', TIMESTAMP_TRUNC(TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds ), WEEK(MONDAY)))) AS events_event_timestamp_date_week,
+    COUNT(DISTINCT events.metadata.product_log_id ) AS count_of_metadata_product_log_id,
+FROM `datalake.events`  AS events
+LEFT JOIN UNNEST(events.security_result) as events__security_result_for__category_details ON  ARRAY_LENGTH(category_details) > 0
+LEFT JOIN UNNEST(category_details) as events__security_result__new_category_details
+WHERE (events.metadata.log_type = "DATAMINR_ALERT" )
+GROUP BY
+    1,
+    2
+ORDER BY
+    1 DESC,
+    2)) WHERE row_num = 1;;
+  }
+  dimension: topic {
+    type: string
+    sql: ${TABLE}.events__security_result__new_category_details_events__security_result__new_category_details;;
+  }
+  dimension: p_count {
+    type: number
+    sql: ${TABLE}.count_of_metadata_product_log_id ;;
+  }
+}
 
 view: events__about {
 

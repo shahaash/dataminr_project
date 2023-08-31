@@ -10,6 +10,7 @@ datagroup: dataminr_default_datagroup {
 
 persist_with: dataminr_default_datagroup
 
+
 explore: events {
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;
     join: events__about {
@@ -337,6 +338,11 @@ explore: events {
       view_label: "Events: Src File Embedded Ips"
       sql: LEFT JOIN UNNEST(${events.src__file__embedded_ips}) as events__src__file__embedded_ips ;;
       relationship: one_to_many
+    }
+    join: week_trend_table {
+      type: left_outer
+      sql_on: ${events__security_result__new_category_details.events__security_result__new_category_details} = ${week_trend_table.topic} ;;
+      relationship: many_to_one
     }
     join: events__src__process__file__tags {
       view_label: "Events: Src Process File Tags"
