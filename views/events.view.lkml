@@ -29525,6 +29525,42 @@ ORDER BY
   }
 }
 
+view: alert_source {
+  derived_table: {
+    sql:  SELECT
+CASE
+WHEN events.principal.application in (SELECT events_principal__application from (SELECT
+    events.principal.application  AS events_principal__application,
+    COUNT(DISTINCT events.metadata.product_log_id ) AS count
+FROM `datalake.events`  AS events
+WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+GROUP BY
+    1
+ORDER BY
+    2 DESC
+LIMIT 9)) THEN events.principal.application
+ELSE 'Other'
+END AS events_principal__application,
+    events.metadata.id  AS events_metadata__id
+FROM `datalake.events`  AS events
+WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+GROUP BY
+    1,
+    2
+ORDER BY
+    1;;
+  }
+  dimension: alert_source_id {
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+  dimension: alert_source_value {
+    type: string
+    sql: ${TABLE}.events_principal__application;;
+  }
+}
+
+
 view: events__about {
 
   dimension: administrative_domain {

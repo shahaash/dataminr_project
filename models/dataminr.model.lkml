@@ -362,6 +362,11 @@ explore: events {
       sql_on: ${events__security_result__new_category_details.events__security_result__new_category_details} = ${week_trend_table.topic} ;;
       relationship: many_to_one
     }
+    join: alert_source {
+      type: left_outer
+      sql_on: ${alert_source.alert_source_id} = ${events.metadata__id} ;;
+      relationship: one_to_one
+    }
     join: events__src__process__file__tags {
       view_label: "Events: Src Process File Tags"
       sql: LEFT JOIN UNNEST(${events.src__process__file__tags}) as events__src__process__file__tags ;;
