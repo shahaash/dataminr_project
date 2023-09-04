@@ -194,6 +194,18 @@ explore: events {
       fields: [events__about__labels__alert_type_name.value]
       relationship: one_to_many
     }
+    join: events__about__labels__watchlist_id {
+      view_label: "Events: About Labels Watchlist Id"
+      sql: LEFT JOIN UNNEST(${events__about.labels}) as events__about__labels__watchlist_id ON ${events__about__labels__watchlist_id.key} = 'watchlistsMatchedByType_id' ;;
+      fields: [events__about__labels__watchlist_id.value]
+      relationship: one_to_many
+    }
+    join: events__about__labels__watchlist_name {
+      view_label: "Events: About Labels Watchlist Name"
+      sql: LEFT JOIN UNNEST(${events__about.labels}) as events__about__labels__watchlist_name ON ${events__about__labels__watchlist_name.key} = 'watchlistsMatchedByType_name' ;;
+      fields: [events__about__labels__watchlist_name.value]
+      relationship: one_to_many
+    }
     join: events__intermediary__mac {
       view_label: "Events: Intermediary Mac"
       sql: LEFT JOIN UNNEST(${events__intermediary.mac}) as events__intermediary__mac ;;
