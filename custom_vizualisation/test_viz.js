@@ -23,13 +23,18 @@ looker.plugins.visualizations.add({
     this.textContainer.style.padding = "5px";
     this.textContainer.style.fontFamily = "Arial";
 
-    // Create a container element for your chart
-    this.chart_container = element.appendChild(document.createElement("div"));
+
+   // Create a container element for your chart
+    this.chart_container = document.createElement("canvas")
     this.chart_container.className = "line-chart-container";
+    this.chart_container.width = 400;
+    this.chart_container.height = 400;
+    element.appendChild(this.chart_container);
 
   },
 
   updateAsync: function(data, element, config, queryResponse, details, done) {
+
     // Calculate the count value from the data
     const count = data.length;
 
@@ -63,6 +68,7 @@ looker.plugins.visualizations.add({
           <div style="font-size: 30px;">${arrowIcon}</div>
           <div style="font-size: 20px; text-align: right;">${percentage}%</div>
         </div>
+        <canvas id="myChart" width="400" height="400"></canvas>
       </div>
     `;
 
@@ -79,31 +85,38 @@ looker.plugins.visualizations.add({
       labels.push(row['count_of_metadata_product_log_id'].value);
       datasets.push(row['events.event_timestamp_date_date'].value);
     });
-    console.log("labels:", labels)
-    console.log("datasets:", datasets)
 
-    var conf = {
-      labels: labels,
-      datasets: [{
-        label: 'My First Dataset',
-        data: datasets,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    };
+    // var conf = {
+    //   labels: labels,
+    //   datasets: [{
+    //     label: 'My First Dataset',
+    //     data: datasets,
+    //     fill: false,
+    //     borderColor: 'rgb(75, 192, 192)',
+    //     tension: 0.1
+    //   }]
+    // };
+
+
     // Initialize a Chart.js instance
-    var ctx = this.chart_container.getContext("2d");
-    this.chart = new Chart(ctx, {
-      type: "line", // Specify the chart type as a line chart
-      data: conf,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        // Add any chart-specific options here
-      },
-    });
-
+      var ctx = this.chart_container;
+      this.chart = new Chart(ctx, {
+        type: "line", // Specify the chart type as a line chart
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'My First Dataset',
+            data: datasets,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
     // // Update the chart data
     // var chart = this.chart; // Reference to the Chart.js instance created in the 'create' function
     // chart.data.labels = labels;
@@ -116,6 +129,10 @@ looker.plugins.visualizations.add({
     //     fill: false,
     //   },
     // ];
+
+    // this.chart.data.labels = labels; // Set labels here
+    // this.chart.data.datasets[0].data = datasets; // Update the dataset's data
+
 
     // Update the chart
     this.chart.update();
