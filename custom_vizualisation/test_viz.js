@@ -82,7 +82,7 @@ looker.plugins.visualizations.add({
     console.log("labels:", labels)
     console.log("datasets:", datasets)
 
-    const data = {
+    var conf = {
       labels: labels,
       datasets: [{
         label: 'My First Dataset',
@@ -96,7 +96,7 @@ looker.plugins.visualizations.add({
     var ctx = this.chart_container.getContext("2d");
     this.chart = new Chart(ctx, {
       type: "line", // Specify the chart type as a line chart
-      data: data,
+      data: conf,
       options: {
         responsive: true,
         maintainAspectRatio: false,
