@@ -68,7 +68,6 @@ looker.plugins.visualizations.add({
           <div style="font-size: 30px;">${arrowIcon}</div>
           <div style="font-size: 20px; text-align: right;">${percentage}%</div>
         </div>
-        <canvas id="myChart" width="400" height="400"></canvas>
       </div>
     `;
 
