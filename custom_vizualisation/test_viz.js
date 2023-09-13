@@ -25,11 +25,11 @@ looker.plugins.visualizations.add({
 
 
    // Create a container element for your chart
+    this.parentNode = document.createElement("div")
     this.chart_container = document.createElement("canvas")
     this.chart_container.className = "line-chart-container";
-    this.chart_container.width = 400;
-    this.chart_container.height = 400;
-    element.appendChild(this.chart_container);
+    this.parentNode.appendChild(this.chart_container);
+    element.appendChild(this.parentNode);
 
   },
 
@@ -81,39 +81,44 @@ looker.plugins.visualizations.add({
     // Populate labels and datasets based on your data model
     // For example, assuming your queryResponse contains fields 'X' and 'Y':
     data.forEach(function(row) {
-      labels.push(row['count_of_metadata_product_log_id'].value);
-      datasets.push(row['events.event_timestamp_date_date'].value);
+      datasets.push(row['count_of_metadata_product_log_id'].value ? row['count_of_metadata_product_log_id'].value : 0);
+      labels.push(row['events.event_timestamp_date_date'].value);
     });
-
-    // var conf = {
-    //   labels: labels,
-    //   datasets: [{
-    //     label: 'My First Dataset',
-    //     data: datasets,
-    //     fill: false,
-    //     borderColor: 'rgb(75, 192, 192)',
-    //     tension: 0.1
-    //   }]
-    // };
 
 
     // Initialize a Chart.js instance
       var ctx = this.chart_container;
+      if (this.chart) {
+        this.chart.destroy();
+      }
       this.chart = new Chart(ctx, {
         type: "line", // Specify the chart type as a line chart
         data: {
           labels: labels,
           datasets: [{
-            label: 'My First Dataset',
+            label: null,
             data: datasets,
             fill: false,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgb(0, 0, 0)',
             tension: 0.1
           }],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          scales: {
+            x: {
+              display: false, // Hide the X-axis
+            },
+            y: {
+              display: false, // Hide the Y-axis
+            },
+          },
+          plugins: {
+              legend: {
+                    display: false,
+              }
+          }
         },
       });
     // // Update the chart data
