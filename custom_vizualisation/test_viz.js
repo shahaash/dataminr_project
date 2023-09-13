@@ -25,7 +25,10 @@ looker.plugins.visualizations.add({
 
 
    // Create a container element for your chart
-    this.parentNode = document.createElement("div")
+    this.parentNode = document.createElement("div");
+    this.parentNode.style.display = "flex";
+    this.parentNode.style.flexDirection = "column";
+    this.parentNode.style.alignItems = "center";
     this.chart_container = document.createElement("canvas")
     this.chart_container.className = "line-chart-container";
     this.parentNode.appendChild(this.chart_container);
@@ -78,11 +81,13 @@ looker.plugins.visualizations.add({
     var labels = [];
     var datasets = [];
 
+    var xField = queryResponse.fields.dimension_like[0].name;
+    var yField = queryResponse.fields.measure_like[0].name;
+
     // Populate labels and datasets based on your data model
-    // For example, assuming your queryResponse contains fields 'X' and 'Y':
     data.forEach(function(row) {
-      datasets.push(row['count_of_metadata_product_log_id'].value ? row['count_of_metadata_product_log_id'].value : 0);
-      labels.push(row['events.event_timestamp_date_date'].value);
+      datasets.push(row[yField].value ? row[yField].value : 0);
+      labels.push(row[xField].value);
     });
 
 
@@ -137,7 +142,8 @@ looker.plugins.visualizations.add({
     // this.chart.data.labels = labels; // Set labels here
     // this.chart.data.datasets[0].data = datasets; // Update the dataset's data
 
-
+    this.chart.canvas.style.height = '32px';
+    this.chart.canvas.style.width = '128px';
     // Update the chart
     this.chart.update();
 
