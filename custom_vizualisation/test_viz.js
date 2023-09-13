@@ -52,8 +52,6 @@ looker.plugins.visualizations.add({
         list1.push(row[key].value);
       });
     });
-    // console.log("list:",list)
-    // console.log("list1:",list1)
 
     // Calculate the percentage value based on the available count
     const estimatedTotalItems = 100;
@@ -105,12 +103,13 @@ looker.plugins.visualizations.add({
             data: datasets,
             fill: false,
             borderColor: 'rgb(0, 0, 0)',
+            pointRadius: 0,
             tension: 0.1
           }],
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: false,
+          maintainAspectRatio: true,
           scales: {
             x: {
               display: false, // Hide the X-axis
@@ -126,24 +125,9 @@ looker.plugins.visualizations.add({
           }
         },
       });
-    // // Update the chart data
-    // var chart = this.chart; // Reference to the Chart.js instance created in the 'create' function
-    // chart.data.labels = labels;
-    // chart.data.datasets = [
-    //   {
-    //     label: 'Y Values',
-    //     data: datasets,
-    //     borderColor: 'blue',
-    //     borderWidth: 2,
-    //     fill: false,
-    //   },
-    // ];
 
-    // this.chart.data.labels = labels; // Set labels here
-    // this.chart.data.datasets[0].data = datasets; // Update the dataset's data
-
-    this.chart.canvas.style.height = '32px';
-    this.chart.canvas.style.width = '128px';
+    this.chart.canvas.style.height = '50px';
+    this.chart.canvas.style.width = '200px';
     // Update the chart
     this.chart.update();
 
