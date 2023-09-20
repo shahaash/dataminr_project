@@ -77269,7 +77269,10 @@ view: events__extensions__vulns__vulnerabilities {
   }
   dimension: about__resource__name {
     type: string
-    sql: ${TABLE}.about.resource.name ;;
+    sql: CASE
+      WHEN ${TABLE}.about.resource.name IN ('Amazon.com LLC', 'Google LLC', 'Instagram, LLC', 'Linkedin Corporation', 'Meta Platforms, Inc.', 'Microsoft Corporation', 'Netflix, Inc.', 'Paypal Pte. Ltd.', 'Spotify Limited', 'Twitter, Inc.') THEN ${TABLE}.about.resource.name
+      ELSE 'other'
+    END ;;
     group_label: "About Resource"
     group_item_label: "Name"
   }
