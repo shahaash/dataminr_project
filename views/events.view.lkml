@@ -64866,7 +64866,10 @@ view: events__security_result__category_details {
 
   dimension: events__security_result__category_details {
     type: string
-    sql: events__security_result__category_details ;;
+    sql: CASE
+      WHEN events__security_result__category_details IN ('Crime', 'Cybersecurity', 'Cybersecurity - Crime & Malicious Activity', 'Cybersecurity - Threats & Vulnerabilities', 'Data Exposure and Breaches', 'Doxxing and Leaked Credentials', 'Hacking Services', 'Service Quality & Public Perception', 'Transportation & Infrastructure', 'Transportation - Roadways - Logistics') THEN events__security_result__category_details
+      ELSE 'OTHER'
+    END ;;
   }
 }
 
