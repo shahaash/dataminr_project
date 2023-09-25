@@ -237,6 +237,14 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Product Log ID"
   }
+  measure: Count {
+    type: count_distinct
+    sql: ${metadata__product_log_id} ;;
+    group_label: "Metadata"
+    group_item_label: "Metadata Count"
+    html:<p>Count:{{ value }}</p>
+    <p>Company: {{ events__security_result.about__resource__name }}</p> ;;
+  }
   dimension: metadata__product_name {
     type: string
     sql: ${TABLE}.metadata.product_name ;;
