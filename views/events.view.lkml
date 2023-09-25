@@ -51065,6 +51065,10 @@ view: events__about__labels__alert_type_name {
   dimension: value {
     type: string
     sql: ${TABLE}.value ;;
+    link: {
+      label: "View in Chronicle"
+      url: "https://crestdatasys.backstory.chronicle.security/"
+    }
   }
 }
 
