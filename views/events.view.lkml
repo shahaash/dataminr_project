@@ -242,8 +242,7 @@ view: events {
     sql: ${metadata__product_log_id} ;;
     group_label: "Metadata"
     group_item_label: "Metadata Count"
-    html:<p>Count:{{ value }}</p>
-    <p>Company: {{ events__security_result.about__resource__name }}</p> ;;
+    html:<p>Count:{{ value }}</p> ;;
   }
   dimension: metadata__product_name {
     type: string
@@ -50175,7 +50174,6 @@ view: events__security_result {
     END ;;
     group_label: "About Resource"
     group_item_label: "Name"
-    html:<p>Count:{{ value }}</p>;;
   }
   dimension: about__resource__parent {
     type: string
