@@ -1,5 +1,10 @@
 project_name: "dataminr"
 
+constant: CHRONICLE_URL{
+  value: "https://crestdatasys.backstory.chronicle.security"
+  export: override_required
+}
+
 visualization: {
   id: "test_viz"
   label: "test_viz"
