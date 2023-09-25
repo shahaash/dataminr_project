@@ -50174,6 +50174,10 @@ view: events__security_result {
     END ;;
     group_label: "About Resource"
     group_item_label: "Name"
+    link: {
+      label: "View in chronicle"
+      url: "@{CHRONICLE_URL}/search?query=about.resource.name = '{{ events__security_result.about__resource__name}}\'&startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
   }
   dimension: about__resource__parent {
     type: string
