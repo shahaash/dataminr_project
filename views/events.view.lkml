@@ -50167,6 +50167,7 @@ view: events__security_result {
     END ;;
     group_label: "About Resource"
     group_item_label: "Name"
+    html:<p>Count:{{ value }}</p>;;
   }
   dimension: about__resource__parent {
     type: string
@@ -51058,7 +51059,6 @@ view: events__about__labels__alert_type_name {
   dimension: value {
     type: string
     sql: ${TABLE}.value ;;
-    html:<p>Count:{{ value }}</p>;;
   }
 }
 
