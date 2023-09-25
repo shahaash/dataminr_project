@@ -242,7 +242,7 @@ view: events {
     sql: ${metadata__product_log_id} ;;
     group_label: "Metadata"
     group_item_label: "Metadata Count"
-    html:<p>Count:{{ value }}</p> ;;
+    html:<p>Count: {{ value }}</p> ;;
   }
   dimension: metadata__product_name {
     type: string
