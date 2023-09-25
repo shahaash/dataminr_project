@@ -51061,7 +51061,7 @@ view: events__about__labels__alert_type_name {
   }
   dimension: status {
     type: string
-    sql: ${TABLE}.status ;;
+    sql: ${TABLE}.value ;;
     html: {% if value == 'Alert' %}
       <p style="background-color: yellow;"></p>
     {% elsif value == 'Urgent' %}
