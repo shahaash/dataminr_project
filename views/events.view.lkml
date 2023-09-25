@@ -51059,20 +51059,6 @@ view: events__about__labels__alert_type_name {
     type: string
     sql: ${TABLE}.value ;;
   }
-  dimension: status {
-    type: string
-    sql: ${TABLE}.value ;;
-    html: {% if value == 'Alert' %}
-      <p style="background-color: yellow;"></p>
-    {% elsif value == 'Urgent' %}
-      <p style="background-color: orange;"></p>
-    {% elsif value == 'Flash' %}
-      <p style="background-color: pink;"></p>
-    {% else %}
-      <p style="background-color: orange;"></p>
-    {% endif %}
-  ;;
-  }
 }
 
 view: events__about__labels__watchlist_id {
