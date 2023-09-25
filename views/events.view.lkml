@@ -12936,8 +12936,8 @@ view: events {
   }
   dimension: event__location{
     type: location
-    sql_latitude: ${principal__location__region_coordinates__latitude} ;;
-    sql_longitude: ${principal__location__region_coordinates__longitude} ;;
+    sql_latitude: ${principal__location__region_coordinates__latitude} IS NOT NULL ;;
+    sql_longitude: ${principal__location__region_coordinates__longitude} IS NOT NULL ;;
     group_label: "Event Location"
     group_item_label: "Coordinates"
   }
