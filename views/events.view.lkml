@@ -51060,6 +51060,7 @@ view: events__about__labels__alert_type_name {
     sql: ${TABLE}.value ;;
   }
   dimension: status {
+    type: string
     sql: ${TABLE}.status ;;
     html: {% if value == 'Alert' %}
       <p style="background-color: yellow;"></p>
