@@ -241,7 +241,7 @@ view: events {
     type: count_distinct
     sql: ${metadata__product_log_id} ;;
     group_label: "Metadata"
-    group_item_label: "Metadata Count"
+    group_item_label: "Count"
     html:<p>Count: {{ value }}</p> ;;
   }
   dimension: metadata__product_name {
