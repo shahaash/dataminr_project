@@ -29038,10 +29038,6 @@ view: events {
     group_label: "Target"
     group_item_label: "User Management Chain"
   }
-  dimension: selectedTopicCombo {
-    type: string
-    sql: SELECT CONCAT(${events__security_result__category_details.events__security_result__category_details} SEPARATOR ', ') GROUP BY ${metadata__id} ;;
-  }
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -29681,7 +29677,6 @@ view: company_name {
     sql: ${TABLE}.events__security_result_about__resource__name;;
   }
 }
-
 
 view: company_name_null {
   derived_table: {
