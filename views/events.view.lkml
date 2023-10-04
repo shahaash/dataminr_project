@@ -29038,6 +29038,10 @@ view: events {
     group_label: "Target"
     group_item_label: "User Management Chain"
   }
+  dimension: selectedTopicCombo {
+    type: string
+    sql: SELECT CONCAT(${events__security_result__category_details.events__security_result__category_details} SEPARATOR ', ') GROUP BY ${metadata__id} ;;
+  }
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -29643,38 +29647,41 @@ ORDER BY
 
 view: company_name {
   derived_table: {
-    sql:  SELECT
-CASE
-WHEN events__security_result.about.resource.name in (SELECT events__security_result_about__resource__name from (SELECT
-    events__security_result.about.resource.name AS events__security_result_about__resource__name,
-    COUNT(DISTINCT events.metadata.product_log_id ) AS count
-FROM `datalake.events` AS events
-WHERE LENGTH(events__security_result.about.resource.name ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
-GROUP BY
-    1
-ORDER BY
-    2 DESC
-LIMIT 9)) THEN events__security_result.about.resource.name
-ELSE 'Other'
-END AS events__security_result_about__resource__name,
-    events.metadata.id  AS events_metadata__id
-FROM `datalake.events`  AS events
-WHERE LENGTH(events__security_result.about.resource.name ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
-GROUP BY
-    1,
-    2
-ORDER BY
-    1;;
+    sql: SELECT
+    CASE
+    WHEN events__security_result.about.resource.name in (SELECT events__security_result_about__resource__name from (SELECT
+        events__security_result.about.resource.name  AS events__security_result_about__resource__name,
+        COUNT(DISTINCT events.metadata.id ) AS events_company_count
+    FROM datalake.events  AS events
+    LEFT JOIN UNNEST(events.security_result) as events__security_result
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    GROUP BY
+        1
+    ORDER BY
+        2 DESC
+    LIMIT 9)) THEN events__security_result.about.resource.name
+    ELSE 'Other'
+    END AS events__security_result_about__resource__name,
+          events.metadata.id AS events_metadata_id
+    FROM datalake.events  AS events
+    LEFT JOIN UNNEST(events.security_result) as events__security_result
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    GROUP BY
+        1,
+        2
+    ORDER BY
+      1 ;;
   }
-  dimension: company_id {
+  dimension: company_name_metadata_id {
     type: string
-    sql: ${TABLE}.events_metadata__id ;;
+    sql: ${TABLE}.events_metadata_id ;;
   }
-  dimension: company_value {
+  dimension: company_name_value {
     type: string
     sql: ${TABLE}.events__security_result_about__resource__name;;
   }
 }
+
 
 view: company_name_null {
   derived_table: {
@@ -29683,7 +29690,7 @@ view: company_name_null {
           events__security_result.about.resource.name  AS events__security_result_about__resource__name
       FROM `datalake.events`  AS events
       LEFT JOIN UNNEST(events.security_result) as events__security_result
-      WHERE (events.metadata.log_type = "DATAMINR_ALERT" )
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name) IS NOT NULL
       GROUP BY
           1,
           2
@@ -65031,10 +65038,7 @@ view: events__security_result__category_details {
 
   dimension: events__security_result__category_details {
     type: string
-    sql: CASE
-      WHEN events__security_result__category_details IN ('Crime', 'Cybersecurity', 'Cybersecurity - Crime & Malicious Activity', 'Cybersecurity - Threats & Vulnerabilities', 'Data Exposure and Breaches', 'Doxxing and Leaked Credentials', 'Hacking Services', 'Service Quality & Public Perception', 'Transportation & Infrastructure', 'Transportation - Roadways - Logistics') THEN events__security_result__category_details
-      ELSE 'OTHER'
-    END ;;
+    sql: events__security_result__category_details ;;
   }
 }
 

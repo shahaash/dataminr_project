@@ -374,6 +374,11 @@ explore: events {
       sql_on: ${events.metadata__id} = ${watchlist_name.watchlist_name_metadata_id} ;;
       relationship: one_to_one
     }
+    join: company_name{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${company_name.company_name_metadata_id} ;;
+      relationship: one_to_one
+    }
     join: company_name_null{
       type: left_outer
       sql_on: ${events.metadata__id} = ${company_name_null.company_name_metadata_id} ;;
