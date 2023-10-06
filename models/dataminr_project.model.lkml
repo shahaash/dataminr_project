@@ -12,6 +12,7 @@ datagroup: dataminr_default_datagroup {
 persist_with: dataminr_default_datagroup
 
 explore:  hashstaticdata{}
+explore: csvstaticdata {}
 
 explore: events {
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;
@@ -368,6 +369,21 @@ explore: events {
       type: left_outer
       sql_on: ${alert_source.alert_source_id} = ${events.metadata__id} ;;
       relationship: one_to_one
+    }
+    join: watchlist_name{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${watchlist_name.watchlist_name_metadata_id} ;;
+      relationship: one_to_one
+    }
+    join: company_name{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${company_name.company_name_metadata_id} ;;
+      relationship: one_to_one
+    }
+    join: company_name_null{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${company_name_null.company_name_metadata_id} ;;
+      relationship: one_to_many
     }
     join: events__src__process__file__tags {
       view_label: "Events: Src Process File Tags"

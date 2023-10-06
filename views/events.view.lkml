@@ -198,6 +198,7 @@ view: events {
   }
   dimension: metadata__id {
     type: string
+    primary_key: yes
     sql: ${TABLE}.metadata.id ;;
     group_label: "Metadata"
     group_item_label: "ID"
@@ -244,12 +245,26 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Product Log ID"
   }
-  measure: Count {
-    type: count_distinct
-    sql: ${metadata__product_log_id} ;;
+  # count for Metadata and using alertType name filter.
+  measure: severity_count {
+    type: count
     group_label: "Metadata"
-    group_item_label: "Count"
+    group_item_label: "Severity Count"
     html:<p>Count: {{ value }}</p> ;;
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=about.labels[\"alertType_name\"] = \"{{ events__about__labels__alert_type_name.value}}\" {% if _filters['events__about__labels__watchlist_name.value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['events__about__labels__watchlist_name.value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
+  }
+  # measure for last date
+  measure: upper_date {
+    type: string
+    sql: FORMAT_TIMESTAMP("%FT%TZ", TIMESTAMP_ADD(TIMESTAMP_SECONDS(MAX(${TABLE}.metadata.event_timestamp.seconds)), INTERVAL 1 SECOND) );;
+  }
+  # measure for first date
+  measure: lower_date {
+    type: string
+    sql: FORMAT_TIMESTAMP("%FT%TZ", TIMESTAMP_SECONDS(MIN(${TABLE}.metadata.event_timestamp.seconds)) );;
   }
   dimension: metadata__product_name {
     type: string
@@ -29034,6 +29049,30 @@ view: events {
     type: count
     drill_fields: [detail*]
   }
+  # count for Metadata and using alertType name filter.
+  measure: company_count {
+    type: count
+    # sql: ${events.metadata.id} ;;
+    group_label: "Metadata"
+    group_item_label: "Company Count"
+    html:<p>Count: {{ value }}</p> ;;
+  }
+  measure: company_count_percent {
+    type: percent_of_total
+    group_label: "Metadata"
+    group_item_label: "Company Count Percent"
+    sql: ${company_count} ;;
+  }
+  measure: occurrence_count {
+    type: count
+    group_label: "Metadata"
+    group_item_label: "Occurrence Count"
+    html:<p>Count: {{ value }}</p> ;;
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ events__security_result__category_details.events__security_result__category_details}}\" {% if _filters['events__about__labels__watchlist_name.value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['events__about__labels__watchlist_name.value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
+  }
 
   # ----- Sets of fields for drilling ------
   set: detail {
@@ -29511,7 +29550,6 @@ view: events {
 
 }
 
-
 view: week_trend_table {
   derived_table: {
     sql:  SELECT events__security_result__new_category_details_events__security_result__new_category_details,count_of_metadata_product_log_id FROM (SELECT *, ROW_NUMBER() OVER(PARTITION BY events__security_result__new_category_details_events__security_result__new_category_details ORDER BY events_event_timestamp_date_week) AS row_num FROM (SELECT
@@ -29536,6 +29574,42 @@ ORDER BY
   dimension: p_count {
     type: number
     sql: ${TABLE}.count_of_metadata_product_log_id ;;
+  }
+}
+
+view: csvstaticdata {
+  derived_table: {
+    sql: select 'Dataminr_newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
+    UNION ALL select 'Dataminr_Bozeman' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,131 W Main St, Unit D, Bozeman, MT 59715' as asset_description, '5' as alerting_distance_miles, '45.6794878' as asset_lat, '-111.0398014' as asset_long
+    UNION ALL select 'Dataminr_Virginia' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,2101 Wilson Blvd #1002,Arlington, VA 22201,United States' as asset_description, '5' as alerting_distance_miles, '38.8940199 ' as asset_lat, '-77.0683043' as asset_long
+    UNION ALL select 'Dataminr_Dublin' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,2 Windmill Lane,D02 K156, Dublin, Ireland' as asset_description, '5' as alerting_distance_miles, '53.3458505  ' as asset_lat, '-6.245248' as asset_long
+    UNION ALL select 'Dataminr_London' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,10 York Rd, London SE1 7ND, UK' as asset_description, '5' as alerting_distance_miles, '51.5037543' as asset_lat, '-0.1181606' as asset_long
+    UNION ALL select 'Dataminr_Melbourne' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,120 Spencer St, Melbourne VIC 3000, Australia' as asset_description, '5' as alerting_distance_miles, '-37.8182119' as asset_lat, '144.9521438' as asset_long
+    UNION ALL select 'Dataminr_Seattle' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,925 4th Ave #11th, Seattle, WA 98104' as asset_description, '5' as alerting_distance_miles, '47.6054854 ' as asset_lat, '-122.3354275' as asset_long;;
+  }
+  dimension: asset_name {
+    type: string
+    sql: ${TABLE}.asset_name ;;
+  }
+  dimension: asset_type {
+    type: string
+    sql: ${TABLE}.asset_type ;;
+  }
+  dimension: asset_description {
+    type: string
+    sql: ${TABLE}.asset_description ;;
+  }
+  dimension: alerting_distance_miles {
+    type: string
+    sql: ${TABLE}.alerting_distance_miles ;;
+  }
+  dimension: asset_lat {
+    type: string
+    sql: ${TABLE}.asset_lat ;;
+  }
+  dimension: asset_long {
+    type: string
+    sql: ${TABLE}.asset_long ;;
   }
 }
 
@@ -29572,6 +29646,95 @@ ORDER BY
     type: string
     sql: ${TABLE}.events_principal__application;;
   }
+}
+view: company_name {
+  derived_table: {
+    sql: SELECT
+    CASE
+    WHEN events__security_result.about.resource.name in (SELECT events__security_result_about__resource__name from (SELECT
+        events__security_result.about.resource.name  AS events__security_result_about__resource__name,
+        COUNT(DISTINCT events.metadata.id ) AS events_company_count
+    FROM datalake.events  AS events
+    LEFT JOIN UNNEST(events.security_result) as events__security_result
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    GROUP BY
+        1
+    ORDER BY
+        2 DESC
+    LIMIT 9)) THEN events__security_result.about.resource.name
+    ELSE 'Other'
+    END AS events__security_result_about__resource__name,
+          events.metadata.id AS events_metadata_id
+    FROM datalake.events  AS events
+    LEFT JOIN UNNEST(events.security_result) as events__security_result
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    GROUP BY
+        1,
+        2
+    ORDER BY
+      1 ;;
+  }
+  dimension: company_name_metadata_id {
+    type: string
+    sql: ${TABLE}.events_metadata_id ;;
+  }
+  dimension: company_name_value {
+    type: string
+    sql: ${TABLE}.events__security_result_about__resource__name;;
+  }
+}
+
+view: company_name_null {
+  derived_table: {
+    sql: SELECT
+          events.metadata.id  AS events_metadata__id,
+          events__security_result.about.resource.name  AS events__security_result_about__resource__name
+      FROM `datalake.events`  AS events
+      LEFT JOIN UNNEST(events.security_result) as events__security_result
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name) IS NOT NULL
+      GROUP BY
+          1,
+          2
+      ORDER BY
+          1 ;;
+  }
+  dimension: company_name_metadata_id {
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+
+  dimension: company_name_value {
+    type: string
+    sql: ${TABLE}.events__security_result_about__resource__name ;;
+  }
+}
+
+view: watchlist_name {
+  derived_table: {
+    sql: SELECT
+      events.metadata.id  AS events_metadata__id,
+      events__about__labels.value  AS events__about__labels_value
+  FROM `datalake.events`  AS events
+  LEFT JOIN UNNEST(events.about) as events__about
+  LEFT JOIN UNNEST(labels) as events__about__labels
+  WHERE (events__about__labels.key ) = 'watchlistsMatchedByType_name' AND (events.metadata.log_type = "DATAMINR_ALERT" )
+  GROUP BY
+      1,
+      2
+  ORDER BY
+      1
+ ;;
+  }
+  dimension: watchlist_name_metadata_id {
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+
+  dimension: watchlist_name_value {
+    type: string
+    sql: ${TABLE}.events__about__labels_value ;;
+  }
+
 }
 
 view: events__about {
@@ -50174,10 +50337,7 @@ view: events__security_result {
   }
   dimension: about__resource__name {
     type: string
-    sql: CASE
-      WHEN ${TABLE}.about.resource.name IN ('Amazon.com LLC', 'Google LLC', 'Instagram, LLC', 'Linkedin Corporation', 'Meta Platforms, Inc.', 'Microsoft Corporation', 'Netflix, Inc.', 'Paypal Pte. Ltd.', 'Spotify Limited', 'Twitter, Inc.') THEN ${TABLE}.about.resource.name
-      ELSE 'other'
-    END ;;
+    sql: ${TABLE}.about.resource.name ;;
     group_label: "About Resource"
     group_item_label: "Name"
   }
@@ -64879,10 +65039,7 @@ view: events__security_result__category_details {
 
   dimension: events__security_result__category_details {
     type: string
-    sql: CASE
-      WHEN events__security_result__category_details IN ('Crime', 'Cybersecurity', 'Cybersecurity - Crime & Malicious Activity', 'Cybersecurity - Threats & Vulnerabilities', 'Data Exposure and Breaches', 'Doxxing and Leaked Credentials', 'Hacking Services', 'Service Quality & Public Perception', 'Transportation & Infrastructure', 'Transportation - Roadways - Logistics') THEN events__security_result__category_details
-      ELSE 'OTHER'
-    END ;;
+    sql: events__security_result__category_details ;;
   }
 }
 
