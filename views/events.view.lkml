@@ -1,6 +1,13 @@
 view: events {
   sql_table_name: `datalake.events` ;;
 
+  dimension: ioc_hash {
+    type: string
+    sql: CASE
+      WHEN ${events__security_result_for.about__file__hash} in ('097d8edb1762d7d3ded4360a9f5b4673a898937421f36853d2f5cde77e1bac93', '4a06231957c53dee1a11ff3eb84caad082f18761aee49e72d79c7f1d32884e34', '55884b3b0018b42e500c8ca427d8ae3b3174d9efca5aa57b34eb9202cb84913a', '80b9c5ec798e7bbd71bbdfffab11653f36a7a30e51de3a72c5213eafe65965d9', '000273a58938b234595b390ef5752f166e8eecea6252cd6da07b72db23bec6e3', 'f61403729e3f4e212411db486a537eabca2d0b84be21b789cddca4fc3aa85923') THEN ${events__security_result_for.about__file__hash}
+      END ;;
+  }
+
   dimension: about {
     hidden: yes
     sql: ${TABLE}.about ;;
@@ -29640,7 +29647,6 @@ ORDER BY
     sql: ${TABLE}.events_principal__application;;
   }
 }
-
 view: company_name {
   derived_table: {
     sql: SELECT
@@ -103501,5 +103507,37 @@ view: events__extensions__vulns__vulnerabilities__about__process_ancestors__file
   dimension: value {
     type: string
     sql: ${TABLE}.value ;;
+  }
+}
+view: hashstaticdata {
+  derived_table: {
+    sql: select '1681692390' as _time, '097d8edb1762d7d3ded4360a9f5b4673a898937421f36853d2f5cde77e1bac93' as hash, 'AlienVault Open Threat Exchange' as source, 'Technical analysis posted of privilege escalation malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.' as caption
+          union all select '1681692390', '4a06231957c53dee1a11ff3eb84caad082f18761aee49e72d79c7f1d32884e34','AlienVault Open Threat Exchange','Technical analysis posted of C2 malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.'
+          union all select '1681601028', '55884b3b0018b42e500c8ca427d8ae3b3174d9efca5aa57b34eb9202cb84913a','VirusTotal','Analysis posted of persistence malware associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.'
+          union all select '1681601028', '60b0e7e09fe91aa785b85315aad3850e7f47f70a5aab7ae9ef31ad1c50477f55','VirusTotal','Analysis posted of malicoius file associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.'
+          union all select '1681601028', 'be125a98ba01f1bd318271b5de8114da139e5f78449ab3eb69c5aa4934026aed','VirusTotal','Analysis posted of network reconnaissance malware associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.'
+          union all select '1681601028', 'ef0785dcdfe4fff99dc79bd89f1d1c2b207e67cb8fe6940127dd655ec202a770','VirusTotal','Analysis posted of network reconnaissance malware associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.'
+          union all select '1681692390', 'f29b948905449f330d2e5070d767d0dac4837d0b566eee28282dc78749083684','AlienVault Open Threat Exchange','Technical analysis posted of defense evasion malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.'
+          ;;
+  }
+
+  dimension: _time {
+    type: string
+    sql: ${TABLE}._time ;;
+  }
+
+  dimension: hash {
+    type: string
+    sql: ${TABLE}.hash ;;
+  }
+
+  dimension: source {
+    type: string
+    sql: ${TABLE}.source ;;
+  }
+
+  dimension: caption {
+    type: string
+    sql: ${TABLE}.caption ;;
   }
 }

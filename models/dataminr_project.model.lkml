@@ -11,6 +11,7 @@ datagroup: dataminr_default_datagroup {
 
 persist_with: dataminr_default_datagroup
 
+explore:  hashstaticdata{}
 explore: csvstaticdata {}
 
 explore: events {
