@@ -2,7 +2,7 @@ connection: "chronicle"
 
 # include all the views
 include: "/views/**/*.view.lkml"
-# include: "/dashboards/**/*.dashboard"
+include: "/dashboards/**/*.dashboard"
 
 datagroup: dataminr_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -383,6 +383,11 @@ explore: events {
     join: company_name_null{
       type: left_outer
       sql_on: ${events.metadata__id} = ${company_name_null.company_name_metadata_id} ;;
+      relationship: one_to_many
+    }
+    join: occurrence_name{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${occurrence_name.occurrence_trend_metadata_id} ;;
       relationship: one_to_many
     }
     join: events__src__process__file__tags {

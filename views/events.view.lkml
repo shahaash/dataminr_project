@@ -12969,12 +12969,8 @@ view: events {
     sql_longitude: ${principal__location__region_coordinates__longitude} ;;
     group_label: "Event Location"
     group_item_label: "Coordinates"
-  }
-  dimension: principal__location__region_latitude {
-    type: number
-    sql: ${TABLE}.principal.location.region_latitude ;;
-    group_label: "Principal Location"
-    group_item_label: "Region Latitude"
+    html: <p>Latitude: {{ principal__location__region_coordinates__latitude }}</p>
+    <p>Longitude: {{ principal__location__region_coordinates__longitude }}</p> ;;
   }
   dimension: principal__location__region_longitude {
     type: number
@@ -29049,29 +29045,26 @@ view: events {
     type: count
     drill_fields: [detail*]
   }
-  # count for Metadata and using alertType name filter.
+  # count of metadata id for company name (Occurrence by Company)
   measure: company_count {
     type: count
-    # sql: ${events.metadata.id} ;;
     group_label: "Metadata"
     group_item_label: "Company Count"
     html:<p>Count: {{ value }}</p> ;;
   }
-  measure: company_count_percent {
-    type: percent_of_total
-    group_label: "Metadata"
-    group_item_label: "Company Count Percent"
-    sql: ${company_count} ;;
-  }
+  # count of metadata id for categories name (Occurrence Trend)
   measure: occurrence_count {
     type: count
     group_label: "Metadata"
     group_item_label: "Occurrence Count"
     html:<p>Count: {{ value }}</p> ;;
-    link: {
-      label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ events__security_result__category_details.events__security_result__category_details}}\" {% if _filters['events__about__labels__watchlist_name.value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['events__about__labels__watchlist_name.value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
-    }
+  }
+  # count of metadata id for location values (Distribution by Location)
+  measure: location_count {
+    type: count
+    group_label: "Metadata"
+    group_item_label: "Location Count"
+    html: <p>Count: {{ value }}</p> ;;
   }
 
   # ----- Sets of fields for drilling ------
@@ -29616,27 +29609,27 @@ view: csvstaticdata {
 view: alert_source {
   derived_table: {
     sql:  SELECT
-CASE
-WHEN events.principal.application in (SELECT events_principal__application from (SELECT
-    events.principal.application  AS events_principal__application,
-    COUNT(DISTINCT events.metadata.product_log_id ) AS count
-FROM `datalake.events`  AS events
-WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
-GROUP BY
-    1
-ORDER BY
-    2 DESC
-LIMIT 9)) THEN events.principal.application
-ELSE 'Other'
-END AS events_principal__application,
-    events.metadata.id  AS events_metadata__id
-FROM `datalake.events`  AS events
-WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
-GROUP BY
-    1,
-    2
-ORDER BY
-    1;;
+  CASE
+  WHEN events.principal.application in (SELECT events_principal__application from (SELECT
+      events.principal.application  AS events_principal__application,
+      COUNT(DISTINCT events.metadata.product_log_id ) AS count
+  FROM `datalake.events`  AS events
+  WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+  GROUP BY
+      1
+  ORDER BY
+      2 DESC
+  LIMIT 9)) THEN events.principal.application
+  ELSE 'Other'
+  END AS events_principal__application,
+      events.metadata.id  AS events_metadata__id
+  FROM `datalake.events`  AS events
+  WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+  GROUP BY
+      1,
+      2
+  ORDER BY
+      1;;
   }
   dimension: alert_source_id {
     type: string
@@ -29647,6 +29640,7 @@ ORDER BY
     sql: ${TABLE}.events_principal__application;;
   }
 }
+
 view: company_name {
   derived_table: {
     sql: SELECT
@@ -29706,6 +29700,46 @@ view: company_name_null {
   dimension: company_name_value {
     type: string
     sql: ${TABLE}.events__security_result_about__resource__name ;;
+  }
+}
+
+view: occurrence_name {
+  derived_table: {
+    sql: SELECT
+      CASE
+      WHEN events__security_result__category_details in (SELECT events__security_result__category_details FROM (SELECT
+          events__security_result__category_details,
+          COUNT(DISTINCT events.metadata.id ) AS events_occurrence_count
+      FROM datalake.events AS events
+      LEFT JOIN UNNEST(events.security_result) as events__security_result
+      LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result__category_details ) IS NOT NULL
+      GROUP BY
+          1
+      ORDER BY
+          2 DESC
+      LIMIT 10)) THEN events__security_result__category_details
+      ELSE 'Other'
+      END AS events__security_result__category_details_events__security_result__category_details,
+            events.metadata.id AS events_metadata_id
+      FROM datalake.events AS events
+      LEFT JOIN UNNEST(events.security_result) as events__security_result
+      LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result__category_details ) IS NOT NULL
+      GROUP BY
+        1,
+        2
+      ORDER BY
+        1
+      ;;
+  }
+  dimension: occurrence_trend_metadata_id {
+    type: string
+    sql: ${TABLE}.events_metadata_id ;;
+  }
+  dimension: occurrence_trend_value {
+    type: string
+    sql: ${TABLE}.events__security_result__category_details_events__security_result__category_details;;
   }
 }
 
