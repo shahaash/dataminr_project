@@ -2,7 +2,7 @@ connection: "chronicle"
 
 # include all the views
 include: "/views/**/*.view.lkml"
-# include: "/dashboards/**/*.dashboard"
+include: "/dashboards/**/*.dashboard"
 
 datagroup: dataminr_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -11,11 +11,24 @@ datagroup: dataminr_default_datagroup {
 
 persist_with: dataminr_default_datagroup
 
-explore:  hashstaticdata{}
+explore:  hashstaticdata {}
 explore: csvstaticdata {}
+explore: malwarestaticdata {}
 
 explore: events {
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;
+    join: malwarestaticdata {
+      view_label: "Events: Malware"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${events__security_result__associations.name}=${malwarestaticdata.malware} ;;
+    }
+    join: hashstaticdata {
+      view_label: "Events: Hash"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${events__security_result_for.about__file__hash}=${hashstaticdata.hash} ;;
+    }
     join: events__about {
       view_label: "Events: About"
       sql: LEFT JOIN UNNEST(${events.about}) as events__about ;;
