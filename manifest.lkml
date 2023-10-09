@@ -22,7 +22,7 @@ visualization: {
 visualization: {
   id: "ioc_viz"
   label: "ioc_viz"
-  file: "custom_vizualisation/test_viz.js"
+  file: "custom_vizualisation/ioc_viz.js"
   dependencies: [
     "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.js",
