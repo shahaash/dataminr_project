@@ -312,6 +312,28 @@
     y_axis_combined: true
     show_null_points: true
     interpolation: linear
+    y_axes: [{label: Count, orientation: left, series: [{axisId: events.occurrence_count,
+            id: Cybersecurity - events.occurrence_count, name: Cybersecurity}, {axisId: events.occurrence_count,
+            id: Cybersecurity - Crime & Malicious Activity - events.occurrence_count,
+            name: Cybersecurity - Crime & Malicious Activity}, {axisId: events.occurrence_count,
+            id: Cybersecurity - Threats & Vulnerabilities - events.occurrence_count,
+            name: Cybersecurity - Threats & Vulnerabilities}, {axisId: events.occurrence_count,
+            id: Data Exposure and Breaches - events.occurrence_count, name: Data Exposure
+              and Breaches}, {axisId: events.occurrence_count, id: Doxxing and Leaked
+              Credentials - events.occurrence_count, name: Doxxing and Leaked Credentials},
+          {axisId: events.occurrence_count, id: Fraud - events.occurrence_count, name: Fraud},
+          {axisId: events.occurrence_count, id: Hacking Services - events.occurrence_count,
+            name: Hacking Services}, {axisId: events.occurrence_count, id: Other -
+              events.occurrence_count, name: Other}, {axisId: events.occurrence_count,
+            id: Phishing - events.occurrence_count, name: Phishing}, {axisId: events.occurrence_count,
+            id: Service Quality & Public Perception - events.occurrence_count, name: Service
+              Quality & Public Perception}, {axisId: events.occurrence_count, id: Transportation
+              & Infrastructure - events.occurrence_count, name: Transportation & Infrastructure}],
+        showLabels: true, showValues: true, unpinAxis: false, tickDensity: default,
+        tickDensityCustom: 5, type: linear}]
+    x_axis_label: Date & Time
+    x_axis_zoom: true
+    y_axis_zoom: true
     defaults_version: 1
     hidden_pivots: {}
     listen:
