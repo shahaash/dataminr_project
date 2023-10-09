@@ -103510,7 +103510,8 @@ view: hashstaticdata {
     UNION ALL select '1681601028' as _time, '60b0e7e09fe91aa785b85315aad3850e7f47f70a5aab7ae9ef31ad1c50477f55' as hash1, 'VirusTotal' as source, 'Analysis posted of malicoius file associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.' as caption
     UNION ALL select '1681601028' as _time, 'be125a98ba01f1bd318271b5de8114da139e5f78449ab3eb69c5aa4934026aed' as hash1, 'VirusTotal' as source, 'Analysis posted of network reconnaissance malware associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.' as caption
     UNION ALL select '1681601028' as _time, 'ef0785dcdfe4fff99dc79bd89f1d1c2b207e67cb8fe6940127dd655ec202a770' as hash1, 'VirusTotal' as source, 'Analysis posted of network reconnaissance malware associated with new Chameleon Android malware targeting mobile users in Australia and Poland: Blog via VirusTotal.' as caption
-    UNION ALL select '1681692390' as _time, 'f29b948905449f330d2e5070d767d0dac4837d0b566eee28282dc78749083684' as hash1, 'AlienVault Open Threat Exchange' as source, 'Technical analysis posted of defense evasion malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.' as caption;;
+    UNION ALL select '1681692390' as _time, 'f29b948905449f330d2e5070d767d0dac4837d0b566eee28282dc78749083684' as hash1, 'AlienVault Open Threat Exchange' as source, 'Technical analysis posted of defense evasion malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.' as caption
+    UNION ALL select '1681692390' as _time, '250e81eeb4df4649ccb13e271ae3f80d44995b2f8ffca7a2c5e1c738546c2ab1' as hash1, 'AlienVault Open Threat Exchange' as source, 'Technical analysis posted of defense evasion malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.' as caption;;
   }
 
   dimension: _time {
@@ -103549,7 +103550,7 @@ view: malwarestaticdata {
           UNION ALL select '1681692390','Trigona',"AlienVault Open Threat Exchange","Technical analysis posted of defense evasion malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.",NULL,'f29b948905449f330d2e5070d767d0dac4837d0b566eee28282dc78749083684'
           UNION ALL select '1681692390',"Trigona ","AlienVault Open Threat Exchange","Technical analysis posted of C2 malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.",NULL,'4a06231957c53dee1a11ff3eb84caad082f18761aee49e72d79c7f1d32884e34'
           UNION ALL select '1681692390',"Trigona ","AlienVault Open Threat Exchange","Technical analysis posted of privilege escalation malware associated with Trigona ransomware family written in Delphi programming language: Corporate via AlienVault Open Threat Exchange.",NULL,'097d8edb1762d7d3ded4360a9f5b4673a898937421f36853d2f5cde77e1bac93'
-          UNION ALL select '1681648347',"WannaCry ",'XSS',"Individual looking for WannaCry ransomware source code on illicit forum: Blog via XSS.",NULL,NULL;;
+          UNION ALL select '1681648347',"WannaCry",'XSS',"Individual looking for WannaCry ransomware source code on illicit forum: Blog via XSS.",NULL,NULL;;
   }
   dimension: _time {
     type: string
