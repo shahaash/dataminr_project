@@ -87,6 +87,8 @@
     explore: events
     type: looker_grid
     fields: [events__security_result_for.about__file__hash, alert_count]
+    filters:
+      events__security_result_for.about__file__hash: "-EMPTY"
     sorts: [alert_count]
     limit: 500
     column_limit: 50
@@ -153,6 +155,8 @@
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 1
+    series_column_widths:
+      events__security_result_for.about__file__hash: 444
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 6
@@ -203,6 +207,8 @@
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
+    series_column_widths:
+      events__security_result.about__url__domain: 214
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 6
@@ -215,6 +221,8 @@
     explore: events
     type: looker_grid
     fields: [events__security_result__associations.name, count_of_metadata_product_log_id]
+    filters:
+      events__security_result__associations.name: "-EMPTY"
     sorts: [count_of_metadata_product_log_id]
     limit: 500
     column_limit: 50
@@ -253,19 +261,22 @@
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
+    series_column_widths:
+      events__security_result__associations.name: 199
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 6
     col: 18
     width: 6
     height: 6
-  - title: Affected IP Addresses
-    name: Affected IP Addresses
+  - title: Detected Malware
+    name: Detected Malware
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
-    fields: [events__about__labels.value, count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id]
+    type: dataminr_project::ioc_viz
+    fields: [count_of_malware]
+    filters:
+      malwarestaticdata.malware: "-NULL"
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -273,6 +284,13 @@
       based_on: events.metadata__product_log_id
       expression: ''
       label: Count of Metadata Product Log ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    - measure: count_of_malware
+      based_on: malwarestaticdata.malware
+      expression: ''
+      label: Count of Malware
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -290,34 +308,36 @@
     conditional_formatting_include_nulls: false
     custom_color: "#7CB342"
     defaults_version: 0
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 0
-    col: 0
+    col: 18
     width: 6
     height: 6
   - title: Affected Hashes
     name: Affected Hashes
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
-    fields: [events__about__labels.value, count_of_metadata_product_log_id]
+    type: dataminr_project::ioc_viz
+    fields: [count_of_hash, events.event_timestamp_date_date]
+    fill_fields: [events.event_timestamp_date_date]
     filters:
-      count_of_metadata_product_log_id: '2'
-    sorts: [count_of_metadata_product_log_id]
+      hashstaticdata.hash: "-NULL"
+    sorts: [count_of_hash desc 0]
     limit: 500
     column_limit: 50
     dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
+    - measure: count_of_hash
+      based_on: hashstaticdata.hash
       expression: ''
-      label: Count of Metadata Product Log ID
+      label: Count of Hash
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
-    show_view_names: true
+    show_view_names: false
     custom_color_enabled: true
     show_single_value_title: false
     show_comparison: false
@@ -328,6 +348,32 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     custom_color: "#7CB342"
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
     defaults_version: 0
     listen:
       Select Time Range: events.event_timestamp_date_time
@@ -335,26 +381,29 @@
     col: 6
     width: 6
     height: 6
-  - title: Affected Domains
-    name: Affected Domains
+  - title: Affected IP Addresses
+    name: Affected IP Addresses
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
-    fields: [events__about__labels.value, count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id]
+    type: dataminr_project::ioc_viz
+    fields: [count_of_hash, events.event_timestamp_date_date]
+    fill_fields: [events.event_timestamp_date_date]
+    filters:
+      hashstaticdata.hash: "-NULL"
+    sorts: [count_of_hash desc 0]
     limit: 500
     column_limit: 50
     dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
+    - measure: count_of_hash
+      based_on: hashstaticdata.hash
       expression: ''
-      label: Count of Metadata Product Log ID
+      label: Count of Hash
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
-    show_view_names: true
+    show_view_names: false
     custom_color_enabled: true
     show_single_value_title: false
     show_comparison: false
@@ -365,6 +414,98 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     custom_color: "#7CB342"
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 0
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+    row: 0
+    col: 0
+    width: 6
+    height: 6
+  - title: Affected Domain
+    name: Affected Domain
+    model: dataminr_project
+    explore: events
+    type: dataminr_project::ioc_viz
+    fields: [count_of_hash, events.event_timestamp_date_date]
+    fill_fields: [events.event_timestamp_date_date]
+    filters:
+      hashstaticdata.hash: "-NULL"
+    sorts: [count_of_hash desc 0]
+    limit: 500
+    column_limit: 50
+    dynamic_fields:
+    - measure: count_of_hash
+      based_on: hashstaticdata.hash
+      expression: ''
+      label: Count of Hash
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    hidden_fields: []
+    hidden_points_if_no: []
+    show_view_names: false
+    custom_color_enabled: true
+    show_single_value_title: false
+    show_comparison: false
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    custom_color: "#7CB342"
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
     defaults_version: 0
     listen:
       Select Time Range: events.event_timestamp_date_time
@@ -372,50 +513,11 @@
     col: 12
     width: 6
     height: 6
-  - title: Detected Malware
-    name: Detected Malware
-    model: dataminr_project
-    explore: events
-    type: dataminr_project::test_viz
-    fields: [events__about__labels.value, count_of_metadata_product_log_id]
-    filters:
-      count_of_metadata_product_log_id: '2'
-    sorts: [count_of_metadata_product_log_id]
-    limit: 500
-    column_limit: 50
-    dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
-      expression: ''
-      label: Count of Metadata Product Log ID
-      type: count_distinct
-      _kind_hint: measure
-      _type_hint: number
-    hidden_fields: []
-    hidden_points_if_no: []
-    show_view_names: true
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: false
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    custom_color: "#7CB342"
-    defaults_version: 0
-    listen:
-      Select Time Range: events.event_timestamp_date_time
-    row: 0
-    col: 18
-    width: 6
-    height: 6
   filters:
   - name: Select Time Range
     title: Select Time Range
     type: field_filter
-    default_value: ''
+    default_value: 7 day
     allow_multiple_values: false
     required: false
     ui_config:
