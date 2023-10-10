@@ -37,7 +37,7 @@ looker.plugins.visualizations.add({
   },
 
   updateAsync: function(data, element, config, queryResponse, details, done) {
-
+    var hashcolumn = queryResponse.fields.measure_like[0].name;
     // Calculate the count value from the data
     const count = data.length;
 
@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
     // Display the count and percentage value in the container
     this.container.innerHTML = `
       <div style="display: flex; align-items: center;">
-        <div style="font-size: 60px;">${list1[1]}</div>
+        <div style="font-size: 60px;">${data[0][hashcolumn].value}</div>
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
           <div style="font-size: 30px;">${arrowIcon}</div>
           <div style="font-size: 20px; text-align: right;">${percentage}%</div>
@@ -75,7 +75,6 @@ looker.plugins.visualizations.add({
     // Extract data from Looker's query response
     var labels = [];
     var datasets = [];
-
     var xField = queryResponse.fields.dimension_like[0].name;
     var yField = queryResponse.fields.measure_like[0].name;
 
