@@ -14,6 +14,7 @@ persist_with: dataminr_default_datagroup
 explore:  hashstaticdata {}
 explore: csvstaticdata {}
 explore: malwarestaticdata {}
+explore: iocs_derived {}
 
 explore: events {
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;

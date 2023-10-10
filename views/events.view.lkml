@@ -12970,6 +12970,90 @@ view: events {
     group_label: "Principal Location"
     group_item_label: "Region Longitude"
   }
+  dimension: external_link {
+    sql: "link" ;;
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=metadata.id = b\"{{ events.metadata__id | url_encode }}\"&startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
+    html: <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/link.svg" width="15" height="15" alt="link" /> ;;
+  }
+
+  ##Close Proximity Overview
+  dimension: asset_dis_Dataminr_Newyork {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 * ((${principal__location__region_coordinates__latitude} - 40.745900) / 2)), 2) + COS(0.01745329252 * (${principal__location__region_coordinates__latitude})) * COS(0.01745329252 * (40.745900)) * POW(SIN(0.01745329252 * ((${principal__location__region_coordinates__longitude} - (-73.983940)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_Bozeman {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 45.6794878) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(45.6794878)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-111.0398014)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_Virginia {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 38.8940199) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(38.8940199)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-77.0683043)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_Dublin {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 53.3458505) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(53.3458505)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-6.245248)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_London {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 51.5037543) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(51.5037543)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-0.1181606)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_Melbourne {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - (-37.8182119)) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(-37.8182119)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - 144.9521438) / 2)), 2))) ;;
+  }
+
+  dimension: asset_dis_Dataminr_Seattle {
+    type: number
+    sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 47.6054854) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(47.6054854)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-122.3354275)) / 2)), 2))) ;;
+  }
+
+  dimension: asset_distance_miles {
+    type: number
+    sql: CASE
+        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN ${asset_dis_Dataminr_Newyork}
+        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN ${asset_dis_Dataminr_Bozeman}
+        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN ${asset_dis_Dataminr_Virginia}
+        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN ${asset_dis_Dataminr_Dublin}
+        WHEN ${asset_dis_Dataminr_London} <= 5 THEN ${asset_dis_Dataminr_London}
+        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN ${asset_dis_Dataminr_Melbourne}
+        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN ${asset_dis_Dataminr_Seattle}
+        END ;;
+  }
+
+  dimension: asset_name {
+    type: string
+    sql: CASE
+        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN 'Dataminr_Newyork'
+        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'Dataminr_Bozeman'
+        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN 'Dataminr_Virginia'
+        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN 'Dataminr_Dublin'
+        WHEN ${asset_dis_Dataminr_London} <= 5 THEN 'Dataminr_London'
+        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'Dataminr_Melbourne'
+        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN 'Dataminr_Seattle'
+        END ;;
+  }
+
+  dimension: asset_type {
+    type: string
+    sql: CASE
+        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_London} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN 'office'
+        END ;;
+  }
+
   dimension: principal__location__state {
     type: string
     sql: ${TABLE}.principal.location.state ;;
@@ -29732,6 +29816,42 @@ view: occurrence_name {
   dimension: occurrence_trend_value {
     type: string
     sql: ${TABLE}.events__security_result__category_details_events__security_result__category_details;;
+  }
+}
+
+view: iocs_derived {
+  derived_table: {
+    sql: select 'Dataminr_newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
+          UNION all select 'Dataminr_Bozeman', 'Office', 'Dataminr Inc.,131 W Main St, Unit D, Bozeman, MT 59715', '5', '45.6794878', '-111.0398014'
+          UNION all select 'Dataminr_Virginia', 'Office', 'Dataminr Inc.,2101 Wilson Blvd #1002,Arlington, VA 22201,United States', '5', '38.8940199 ', '-77.0683043'
+          UNION all select 'Dataminr_Dublin', 'Office', 'Dataminr Inc.,2 Windmill Lane,D02 K156, Dublin, Ireland', '5', '53.3458505  ', '-6.245248'
+          UNION all select 'Dataminr_London', 'Office', 'Dataminr Inc.,10 York Rd, London SE1 7ND, UK', '5', '51.5037543', '-0.1181606'
+          UNION all select 'Dataminr_Melbourne', 'Office', 'Dataminr Inc.,120 Spencer St, Melbourne VIC 3000, Australia', '5', '-37.8182119', '144.9521438'
+          UNION all select 'Dataminr_Seattle', 'Office', 'Dataminr Inc.,925 4th Ave #11th, Seattle, WA 98104', '5', '47.6054854 ', '-122.3354275';;
+  }
+  dimension: asset_name {
+    type: string
+    sql: ${TABLE}.asset_name ;;
+  }
+  dimension: asset_type {
+    type: string
+    sql: ${TABLE}.asset_type ;;
+  }
+  dimension: asset_description {
+    type: string
+    sql: ${TABLE}.asset_description ;;
+  }
+  dimension: alerting_distance_miles {
+    type: string
+    sql: ${TABLE}.alerting_distance_miles ;;
+  }
+  dimension: asset_lat {
+    type: string
+    sql: ${TABLE}.asset_lat ;;
+  }
+  dimension: asset_long {
+    type: string
+    sql: ${TABLE}.asset_long ;;
   }
 }
 
