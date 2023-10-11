@@ -61,13 +61,24 @@ looker.plugins.visualizations.add({
     const percentageChange = percentage - previousPercentage;
     const arrowIcon = percentageChange > 0 ? '➚' : '➘';
 
+    var ioc_value = data[0][hashcolumn].value
+    // Determine the color based on the ioc count
+    var color;
+    if (ioc_value <= 0) {
+      color = 'green';
+    } else if (ioc_value >= 1 && ioc_value <= 100) {
+      color = 'orange';
+    } else {
+      color = 'red'; // Default color
+    }
+
     // Display the count and percentage value in the container
     this.container.innerHTML = `
       <div style="display: flex; align-items: center;">
-        <div style="font-size: 60px;">${data[0][hashcolumn].value}</div>
+        <div style="font-size: 60px; font-family: Arial, Helvetica, sans-serif; color: ${color};">${ioc_value}</div>
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
-          <div style="font-size: 30px;">${arrowIcon}</div>
-          <div style="font-size: 20px; text-align: right;">${percentage}%</div>
+          <div style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; color: ${color};">${arrowIcon}</div>
+          <div style="font-size: 20px; font-family: Arial, Helvetica, sans-serif; text-align: right; color: ${color};">${percentage}%</div>
         </div>
       </div>
     `;
