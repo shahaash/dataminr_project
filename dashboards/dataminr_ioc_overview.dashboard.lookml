@@ -77,7 +77,7 @@
     defaults_version: 1
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 6
+    row: 8
     col: 0
     width: 6
     height: 6
@@ -159,7 +159,7 @@
       events__security_result_for.about__file__hash: 444
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 6
+    row: 8
     col: 6
     width: 6
     height: 6
@@ -211,7 +211,7 @@
       events__security_result.about__url__domain: 214
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 6
+    row: 8
     col: 12
     width: 6
     height: 6
@@ -265,53 +265,7 @@
       events__security_result__associations.name: 199
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 6
-    col: 18
-    width: 6
-    height: 6
-  - title: Detected Malware
-    name: Detected Malware
-    model: dataminr_project
-    explore: events
-    type: dataminr_project::ioc_viz
-    fields: [count_of_malware]
-    filters:
-      malwarestaticdata.malware: "-NULL"
-    limit: 500
-    column_limit: 50
-    dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
-      expression: ''
-      label: Count of Metadata Product Log ID
-      type: count_distinct
-      _kind_hint: measure
-      _type_hint: number
-    - measure: count_of_malware
-      based_on: malwarestaticdata.malware
-      expression: ''
-      label: Count of Malware
-      type: count_distinct
-      _kind_hint: measure
-      _type_hint: number
-    hidden_fields: []
-    hidden_points_if_no: []
-    show_view_names: true
-    custom_color_enabled: true
-    show_single_value_title: false
-    show_comparison: false
-    comparison_type: value
-    comparison_reverse_colors: false
-    show_comparison_label: true
-    enable_conditional_formatting: false
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    custom_color: "#7CB342"
-    defaults_version: 0
-    hidden_pivots: {}
-    listen:
-      Select Time Range: events.event_timestamp_date_time
-    row: 0
+    row: 8
     col: 18
     width: 6
     height: 6
@@ -377,7 +331,7 @@
     defaults_version: 0
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 0
+    row: 2
     col: 6
     width: 6
     height: 6
@@ -443,7 +397,7 @@
     defaults_version: 0
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 0
+    row: 2
     col: 0
     width: 6
     height: 6
@@ -509,10 +463,51 @@
     defaults_version: 0
     listen:
       Select Time Range: events.event_timestamp_date_time
-    row: 0
+    row: 2
     col: 12
     width: 6
     height: 6
+  - title: Detected Malware
+    name: Detected Malware
+    model: dataminr_project
+    explore: events
+    type: dataminr_project::ioc_viz
+    fields: [count_of_malware]
+    filters:
+      malwarestaticdata.malware: "-NULL"
+    limit: 500
+    column_limit: 50
+    dynamic_fields:
+    - measure: count_of_malware
+      based_on: malwarestaticdata.malware
+      expression: ''
+      label: Count of Malware
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    hidden_fields: []
+    hidden_points_if_no: []
+    show_view_names: true
+    defaults_version: 0
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+    row: 2
+    col: 18
+    width: 6
+    height: 6
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"h3","children":[{"text":"This dashboards shows Indicator
+      of Compromise in the current Splunk environment."}],"id":1697018359819},{"type":"h3","children":[{"text":"Each
+      row in the panels showing vulnerable IOCs are clickable. Click the row to view
+      more details about the vulnerable IOC."}],"id":1697018359819}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 0
+    col: 0
+    width: 24
+    height: 2
   filters:
   - name: Select Time Range
     title: Select Time Range

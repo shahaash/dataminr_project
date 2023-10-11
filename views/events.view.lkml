@@ -29873,6 +29873,11 @@ view: iocs_derived {
     type: string
     sql: ${TABLE}.asset_long ;;
   }
+  dimension: asset_location {
+    type: location
+    sql_latitude: ${asset_lat} ;;
+    sql_longitude: ${asset_long} ;;
+  }
 }
 
 view: watchlist_name {
