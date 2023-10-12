@@ -85,7 +85,7 @@
     model: dataminr_project
     explore: events
     type: looker_map
-    fields: [events.event__location]
+    fields: [events.event__location, events__about__labels__alert_type_name.alert_type]
     filters:
       events.asset_distance_miles: NOT NULL
       events__about__labels__alert_type_name.value: "-NULL"
@@ -108,12 +108,12 @@
     map_marker_radius_mode: proportional_value
     map_marker_units: pixels
     map_marker_proportional_scale_type: linear
-    map_marker_color_mode: fixed
+    map_marker_color_mode: value
     show_view_names: false
     show_legend: true
     quantize_map_value_colors: false
     reverse_map_value_colors: false
-    map_value_scale_clamp_max:
+    map_value_colors: ["#F0BE1B", "#FF8800", "#D25B3B"]
     map: world
     map_projection: ''
     hidden_fields: []
