@@ -51403,6 +51403,16 @@ view: events__about__labels__alert_type_name {
     type: string
     sql: ${TABLE}.value ;;
   }
+  measure: alert_type {
+    type: number
+    sql: CASE
+      WHEN ${TABLE}.value = "Alert" THEN 1
+      WHEN ${TABLE}.value = "Urgent" THEN 2
+      ELSE 3
+      END
+      ;;
+    html: <p>{{events__about__labels__alert_type_name.value}}</p> ;;
+  }
 }
 
 view: events__about__labels__watchlist_id {
