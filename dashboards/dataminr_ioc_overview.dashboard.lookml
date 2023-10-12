@@ -500,9 +500,7 @@
     title_text: ''
     subtitle_text: ''
     body_text: '[{"type":"h3","children":[{"text":"This dashboards shows Indicator
-      of Compromise in the current Splunk environment."}],"id":1697018359819},{"type":"h3","children":[{"text":"Each
-      row in the panels showing vulnerable IOCs are clickable. Click the row to view
-      more details about the vulnerable IOC."}],"id":1697018359819}]'
+      of Compromise in the current Splunk environment."}],"id":1697018359819}]'
     rich_content_json: '{"format":"slate"}'
     row: 0
     col: 0
