@@ -106,7 +106,7 @@
     type: looker_pie
     fields: [events.company_count, company_name.company_name_value]
     filters:
-      events__security_result.about__resource__name: "-NULL"
+      company_name.company_name_value: "-NULL"
     sorts: [events.company_count desc]
     limit: 500
     column_limit: 50
@@ -150,8 +150,8 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Select Time Range: events.event_timestamp_date_time
-      Watchlist: watchlist_name.watchlist_name_value
+      Select Time Range: company_name.time_derived
+      Watchlist: company_name.watchlist_derived
     row: 2
     col: 12
     width: 12
@@ -202,20 +202,21 @@
     row: 8
     col: 12
     width: 12
-    height: 7
-  - title: Latest Alerts
-    name: Latest Alerts
+    height: 11
+  - title: Top 100 Alerts
+    name: Top 100 Alerts
     model: dataminr_project
     explore: events
     type: looker_grid
     fields: [events__about__labels__alert_type_name.value, events.event_timestamp_date_time,
       events.metadata__description, company_name_null.company_name_value, events.src__application,
-      events.principal__application, events__target__labels_publisher_category_name.value]
+      events.principal__application, events__target__labels_publisher_category_name.value,
+      events__security_result__category_details.events__security_result__category_details]
     filters:
       events__about__labels__alert_type_name.value: "-EMPTY"
       events.principal__application: "-EMPTY"
     sorts: [events.event_timestamp_date_time desc]
-    limit: 5000
+    limit: 100
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
@@ -245,14 +246,16 @@
       events.event_timestamp_date_time: Event Time
       events.src__application: Source
       company_name_null.company_name_value: Company
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
     series_column_widths:
       events__about__labels__alert_type_name.value: 77
       events.metadata__description: 1303
       events.event_timestamp_date_time: 144
       company_name_null.company_name_value: 264
-      events.src__application: 76
+      events.src__application: 150
       events.principal__application: 113
       events__target__labels_publisher_category_name.value: 116
+      events__security_result__category_details.events__security_result__category_details: 247
     defaults_version: 1
     column_order: ["$$$_row_numbers_$$$", events__about__labels__alert_type_name.value,
       events.event_timestamp_date_time, events.metadata__description, company_name_null.company_name_value,
@@ -260,7 +263,7 @@
     listen:
       Select Time Range: events.event_timestamp_date_time
       Watchlist: watchlist_name.watchlist_name_value
-    row: 15
+    row: 19
     col: 0
     width: 24
     height: 7
@@ -283,7 +286,7 @@
       events.occurrence_count]
     pivots: [occurrence_name.occurrence_trend_value]
     filters:
-      occurrence_name.occurrence_trend_value: "-EMPTY"
+      occurrence_name.occurrence_trend_value: "-NULL"
     sorts: [occurrence_name.occurrence_trend_value, events.event_timestamp_date_time
         desc]
     limit: 5000
@@ -337,12 +340,12 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Select Time Range: events.event_timestamp_date_time
-      Watchlist: watchlist_name.watchlist_name_value
+      Select Time Range: occurrence_name.time_derived
+      Watchlist: occurrence_name.watchlist_derived
     row: 8
     col: 0
     width: 12
-    height: 7
+    height: 11
   filters:
   - name: Select Time Range
     title: Select Time Range

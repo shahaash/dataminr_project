@@ -29726,7 +29726,9 @@ view: company_name {
         COUNT(DISTINCT events.metadata.id ) AS events_company_count
     FROM datalake.events  AS events
     LEFT JOIN UNNEST(events.security_result) as events__security_result
-    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    LEFT JOIN UNNEST(events.about) as events__about
+    LEFT JOIN UNNEST(labels) as events__about__labels
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result.about.resource.name ) IS NOT NULL
     GROUP BY
         1
     ORDER BY
@@ -29737,12 +29739,20 @@ view: company_name {
           events.metadata.id AS events_metadata_id
     FROM datalake.events  AS events
     LEFT JOIN UNNEST(events.security_result) as events__security_result
-    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+    LEFT JOIN UNNEST(events.about) as events__about
+    LEFT JOIN UNNEST(labels) as events__about__labels
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result.about.resource.name ) IS NOT NULL
     GROUP BY
         1,
         2
     ORDER BY
       1 ;;
+  }
+  filter: time_derived {
+    type: date_time
+  }
+  filter: watchlist_derived {
+    type: string
   }
   dimension: company_name_metadata_id {
     type: string
@@ -29789,7 +29799,9 @@ view: occurrence_name {
       FROM datalake.events AS events
       LEFT JOIN UNNEST(events.security_result) as events__security_result
       LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
-      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result__category_details ) IS NOT NULL
+      LEFT JOIN UNNEST(events.about) as events__about
+    LEFT JOIN UNNEST(labels) as events__about__labels
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result__category_details ) IS NOT NULL
       GROUP BY
           1
       ORDER BY
@@ -29801,13 +29813,21 @@ view: occurrence_name {
       FROM datalake.events AS events
       LEFT JOIN UNNEST(events.security_result) as events__security_result
       LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
-      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result__category_details ) IS NOT NULL
+      LEFT JOIN UNNEST(events.about) as events__about
+    LEFT JOIN UNNEST(labels) as events__about__labels
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result__category_details ) IS NOT NULL
       GROUP BY
         1,
         2
       ORDER BY
         1
       ;;
+  }
+  filter: time_derived {
+    type:  date_time
+  }
+  filter: watchlist_derived {
+    type: string
   }
   dimension: occurrence_trend_metadata_id {
     type: string
