@@ -284,12 +284,11 @@
     model: dataminr_project
     explore: events
     type: looker_line
-    fields: [occurrence_name.occurrence_trend_value, events.event_timestamp_date_time,
-      events.occurrence_count]
-    pivots: [occurrence_name.occurrence_trend_value]
+    fields: [events.event_timestamp_date_time, events.occurrence_count, occurrence_trend.occurrence_trend_value]
+    pivots: [occurrence_trend.occurrence_trend_value]
     filters:
-      occurrence_name.occurrence_trend_value: "-NULL"
-    sorts: [occurrence_name.occurrence_trend_value, events.event_timestamp_date_time
+      occurrence_trend.occurrence_trend_value: "-NULL"
+    sorts: [occurrence_trend.occurrence_trend_value, events.event_timestamp_date_time
         desc]
     limit: 5000
     column_limit: 50
@@ -342,8 +341,8 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Select Time Range: occurrence_name.time_derived
-      Watchlist: occurrence_name.watchlist_derived
+      Select Time Range: occurrence_trend.time_derived
+      Watchlist: occurrence_trend.watchlist_derived
     row: 8
     col: 0
     width: 12
@@ -371,7 +370,7 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: inline
+      display: popover
     model: dataminr_project
     explore: events
     listens_to_filters: []

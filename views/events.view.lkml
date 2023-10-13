@@ -29836,7 +29836,7 @@ view: company_derived {
   }
 }
 
-view: occurrence_name {
+view: occurrence_trend {
   derived_table: {
     sql: SELECT
       CASE

@@ -409,9 +409,9 @@ explore: events {
       sql_on: ${company_derived.metadata__id_derived} = ${events.metadata__id} ;;
       relationship: one_to_many
     }
-    join: occurrence_name{
+    join: occurrence_trend{
       type: left_outer
-      sql_on: ${events.metadata__id} = ${occurrence_name.occurrence_trend_metadata_id} ;;
+      sql_on: ${events.metadata__id} = ${occurrence_trend.occurrence_trend_metadata_id} ;;
       relationship: one_to_many
     }
     join: events__src__process__file__tags {
