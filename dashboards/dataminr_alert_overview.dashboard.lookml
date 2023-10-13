@@ -192,6 +192,7 @@
     map_marker_units: pixels
     map_marker_proportional_scale_type: linear
     map_marker_color_mode: fixed
+    map_marker_color: ["#7b56db"]
     show_legend: true
     quantize_map_value_colors: false
     reverse_map_value_colors: false
@@ -370,7 +371,7 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
