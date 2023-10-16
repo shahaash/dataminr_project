@@ -192,6 +192,7 @@
     map_marker_units: pixels
     map_marker_proportional_scale_type: linear
     map_marker_color_mode: fixed
+    map_marker_color: ["#7b56db"]
     show_legend: true
     quantize_map_value_colors: false
     reverse_map_value_colors: false
@@ -209,9 +210,9 @@
     explore: events
     type: looker_grid
     fields: [events__about__labels__alert_type_name.value, events.event_timestamp_date_time,
-      events.metadata__description, company_name_null.company_name_value, events.src__application,
+      events.metadata__description, company_derived.company_name_derived, events.src__application,
       events.principal__application, events__target__labels_publisher_category_name.value,
-      events__security_result__category_details.events__security_result__category_details]
+      selectedTopics.metadata__id_derived, selectedTopics.selectedtopics_derived]
     filters:
       events__about__labels__alert_type_name.value: "-EMPTY"
       events.principal__application: "-EMPTY"
@@ -234,6 +235,10 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     show_sql_query_menu_options: false
+    column_order: ["$$$_row_numbers_$$$", events__about__labels__alert_type_name.value,
+      events.event_timestamp_date_time, events.metadata__description, company_derived.company_name_derived,
+      events.src__application, events.principal__application, events__target__labels_publisher_category_name.value,
+      selectedTopics.selectedtopics_derived]
     show_totals: true
     show_row_totals: true
     truncate_header: false
@@ -245,21 +250,19 @@
       events__target__labels_publisher_category_name.value: Publisher
       events.event_timestamp_date_time: Event Time
       events.src__application: Source
-      company_name_null.company_name_value: Company
-      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      selectedTopics.selectedtopics_derived: selectedTopics
+      company_derived.company_name_derived: Company
     series_column_widths:
       events__about__labels__alert_type_name.value: 77
       events.metadata__description: 1303
       events.event_timestamp_date_time: 144
-      company_name_null.company_name_value: 264
       events.src__application: 150
       events.principal__application: 113
       events__target__labels_publisher_category_name.value: 116
-      events__security_result__category_details.events__security_result__category_details: 247
+      selectedTopics.selectedtopics_derived: 458
+      company_derived.company_name_derived: 595
     defaults_version: 1
-    column_order: ["$$$_row_numbers_$$$", events__about__labels__alert_type_name.value,
-      events.event_timestamp_date_time, events.metadata__description, company_name_null.company_name_value,
-      events.src__application, events.principal__application, events__target__labels_publisher_category_name.value]
+    hidden_fields: [selectedTopics.metadata__id_derived]
     listen:
       Select Time Range: events.event_timestamp_date_time
       Watchlist: watchlist_name.watchlist_name_value
@@ -282,12 +285,11 @@
     model: dataminr_project
     explore: events
     type: looker_line
-    fields: [occurrence_name.occurrence_trend_value, events.event_timestamp_date_time,
-      events.occurrence_count]
-    pivots: [occurrence_name.occurrence_trend_value]
+    fields: [events.event_timestamp_date_time, events.occurrence_count, occurrence_trend.occurrence_trend_value]
+    pivots: [occurrence_trend.occurrence_trend_value]
     filters:
-      occurrence_name.occurrence_trend_value: "-NULL"
-    sorts: [occurrence_name.occurrence_trend_value, events.event_timestamp_date_time
+      occurrence_trend.occurrence_trend_value: "-NULL"
+    sorts: [occurrence_trend.occurrence_trend_value, events.event_timestamp_date_time
         desc]
     limit: 5000
     column_limit: 50
@@ -340,8 +342,8 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Select Time Range: occurrence_name.time_derived
-      Watchlist: occurrence_name.watchlist_derived
+      Select Time Range: occurrence_trend.time_derived
+      Watchlist: occurrence_trend.watchlist_derived
     row: 8
     col: 0
     width: 12

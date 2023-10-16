@@ -29789,7 +29789,54 @@ view: company_name_null {
   }
 }
 
-view: occurrence_name {
+view: selectedTopics {
+  derived_table: {
+    sql: SELECT
+            STRING_AGG(events__security_result__category_details, ', ' ORDER BY events__security_result__category_details)  AS events__security_result_category_results_derived,
+            events.metadata.id  AS events_metadata__id_derived
+      FROM datalake.events AS events
+      LEFT JOIN UNNEST(events.security_result) as events__security_result
+      LEFT JOIN UNNEST(category_details) as events__security_result__category_details
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result__category_details ) IS NOT NULL
+      GROUP BY
+          2
+      ORDER BY
+          1 ;;
+  }
+  dimension: selectedtopics_derived {
+    type: string
+    sql: ${TABLE}.events__security_result_category_results_derived;;
+  }
+  dimension: metadata__id_derived {
+    type: string
+    sql: ${TABLE}.events_metadata__id_derived;;
+  }
+}
+
+view: company_derived {
+  derived_table: {
+    sql: SELECT
+            STRING_AGG(events__security_result.about.resource.name, ', ' ORDER BY events__security_result.about.resource.name)  AS events__security_result_about_resource_name_derived,
+            events.metadata.id  AS events_metadata__id_derived
+      FROM datalake.events AS events
+      LEFT JOIN UNNEST(events.security_result) as events__security_result
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__security_result.about.resource.name ) IS NOT NULL
+      GROUP BY
+          2
+      ORDER BY
+          1 ;;
+  }
+  dimension: company_name_derived{
+    type: string
+    sql: ${TABLE}.events__security_result_about_resource_name_derived;;
+  }
+  dimension: metadata__id_derived {
+    type: string
+    sql: ${TABLE}.events_metadata__id_derived;;
+  }
+}
+
+view: occurrence_trend {
   derived_table: {
     sql: SELECT
       CASE

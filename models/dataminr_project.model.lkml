@@ -399,9 +399,19 @@ explore: events {
       sql_on: ${events.metadata__id} = ${company_name_null.company_name_metadata_id} ;;
       relationship: one_to_many
     }
-    join: occurrence_name{
+    join: selectedTopics {
       type: left_outer
-      sql_on: ${events.metadata__id} = ${occurrence_name.occurrence_trend_metadata_id} ;;
+      sql_on: ${selectedTopics.metadata__id_derived} = ${events.metadata__id} ;;
+      relationship: one_to_many
+    }
+    join: company_derived {
+      type: left_outer
+      sql_on: ${company_derived.metadata__id_derived} = ${events.metadata__id} ;;
+      relationship: one_to_many
+    }
+    join: occurrence_trend{
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${occurrence_trend.occurrence_trend_metadata_id} ;;
       relationship: one_to_many
     }
     join: events__src__process__file__tags {
