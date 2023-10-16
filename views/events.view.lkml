@@ -29142,6 +29142,20 @@ view: events {
     group_item_label: "Location Count"
     html: <p>Count: {{ value }}</p> ;;
   }
+  # IP count
+  measure: ip_count {
+    type: count
+    group_label: "Metadata"
+    group_item_label: "IP count"
+  }
+  # percent IP count
+  measure: ip_count_percent {
+    type: percent_of_total
+    sql: ${ip_count} ;;
+    group_label: "Metadata"
+    group_item_label: "IP count percent"
+    value_format: "0.000000"
+  }
 
   # ----- Sets of fields for drilling ------
   set: detail {
