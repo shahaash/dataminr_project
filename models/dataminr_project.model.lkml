@@ -384,6 +384,11 @@ explore: events {
       sql_on: ${alert_source.alert_source_id} = ${events.metadata__id} ;;
       relationship: one_to_one
     }
+    join: alerts_by_source {
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${alerts_by_source.alert_by_source_id} ;;
+      relationship: one_to_one
+    }
     join: watchlist_name{
       type: left_outer
       sql_on: ${events.metadata__id} = ${watchlist_name.watchlist_name_metadata_id} ;;

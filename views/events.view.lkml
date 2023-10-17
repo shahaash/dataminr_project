@@ -29731,6 +29731,41 @@ view: alert_source {
   }
 }
 
+view: alerts_by_source {
+  derived_table: {
+    sql: SELECT
+    CASE
+    WHEN events.src.application in (SELECT events_src__application from (SELECT
+        events.src.application  AS events_src__application,
+        COUNT(DISTINCT events.metadata.id ) AS count
+    FROM `datalake.events`  AS events
+    WHERE LENGTH(events.src.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.src.application ) IS NOT NULL
+    GROUP BY
+      1
+    ORDER BY
+        2 DESC
+    LIMIT 9)) THEN events.src.application
+    ELSE 'Other'
+    END AS events_src__application,
+      events.metadata.id  AS events_metadata__id
+    FROM `datalake.events`  AS events
+    WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+    GROUP BY
+        1,
+        2
+    ORDER BY
+        1;;
+  }
+  dimension: alert_by_source_id {
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+  dimension: alert_by_source_value {
+    type: string
+    sql: ${TABLE}.events_src__application;;
+  }
+}
+
 view: company_name {
   derived_table: {
     sql: SELECT
