@@ -37,7 +37,7 @@ looker.plugins.visualizations.add({
   },
 
   updateAsync: function(data, element, config, queryResponse, details, done) {
-
+    var threatcolumn = queryResponse.fields.measure_like[0].name
     // Calculate the count value from the data
     const count = data.length;
 
@@ -52,22 +52,28 @@ looker.plugins.visualizations.add({
         list1.push(row[key].value);
       });
     });
-
     // Calculate the percentage value based on the available count
     const estimatedTotalItems = 100;
-    const percentage = ((count / estimatedTotalItems) * 100).toFixed(2);
-    const previousPercentage = 75;
+    const threat_count = data[0][threatcolumn].value;
+    const threat_count_difference = threat_count - data[1][threatcolumn].value
+    const percentage = ((threat_count_difference / data[1][threatcolumn].value) * estimatedTotalItems).toFixed(2);
+    const arrowIcon = percentage > 0 ? '➚' : '➘';
 
-    const percentageChange = percentage - previousPercentage;
-    const arrowIcon = percentageChange > 0 ? '➚' : '➘';
+    var color;
+    if (percentage <= 0) {
+      color = 'green';
+    }
+    else {
+      color = 'red';
+    }
 
     // Display the count and percentage value in the container
     this.container.innerHTML = `
       <div style="display: flex; align-items: center;">
-        <div style="font-size: 60px;">${list1[1]}</div>
+        <div style="font-size: 60px; font-family: Arial, Helvetica, sans-serif;">${threat_count}</div>
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
-          <div style="font-size: 30px;">${arrowIcon}</div>
-          <div style="font-size: 20px; text-align: right;">${percentage}%</div>
+          <div style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; color: ${color};">${arrowIcon}</div>
+          <div style="font-size: 20px; text-align: right; font-family: Arial, Helvetica, sans-serif; color: ${color};">${percentage}%</div>
         </div>
       </div>
     `;
