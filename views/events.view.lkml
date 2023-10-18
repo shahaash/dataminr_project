@@ -51499,6 +51499,15 @@ view: events__about__labels__alert_type_name {
     type: string
     sql: ${TABLE}.value ;;
   }
+  dimension: cyber_severity{
+    type: string
+    sql: CASE
+      WHEN ${TABLE}.value = "Alert" THEN "high"
+      WHEN ${TABLE}.value = "Urgent" THEN "critical"
+      ELSE "low"
+      END
+      ;;
+  }
   measure: alert_type {
     type: number
     sql: CASE

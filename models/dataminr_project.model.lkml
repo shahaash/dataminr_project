@@ -208,7 +208,7 @@ explore: events {
     join: events__about__labels__alert_type_name {
       view_label: "Events: About Labels Alert Type Name"
       sql: LEFT JOIN UNNEST(${events__about.labels}) as events__about__labels__alert_type_name ON ${events__about__labels__alert_type_name.key} = 'alertType_name' ;;
-      fields: [events__about__labels__alert_type_name.value, events__about__labels__alert_type_name.alert_type]
+      fields: [events__about__labels__alert_type_name.value, events__about__labels__alert_type_name.cyber_severity, events__about__labels__alert_type_name.alert_type]
       relationship: one_to_many
     }
     join: events__about__labels__watchlist_id {
