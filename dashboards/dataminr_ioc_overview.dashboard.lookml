@@ -10,8 +10,10 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__principal__ip.events__principal__ip__regex, count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id]
+    fields: [events__principal__ip.events__principal__ip__regex, count_of_metadata_id]
+    filters:
+      events__principal__ip.events__principal__ip__regex: "-NULL"
+    sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -19,6 +21,13 @@
       based_on: events.metadata__product_log_id
       expression: ''
       label: Count of Metadata Product Log ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -44,10 +53,7 @@
     minimum_column_width: 75
     series_labels:
       events__principal__ip.events__principal__ip__regex: IP Address
-      count_of_metadata_product_log_id: Alert Count
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
+      count_of_metadata_id: Alert Count
     hidden_pivots: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -86,10 +92,10 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__security_result_for.about__file__hash, alert_count]
+    fields: [events__security_result_for.about__file__hash, count_of_metadata_id]
     filters:
       events__security_result_for.about__file__hash: "-EMPTY"
-    sorts: [alert_count]
+    sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -102,6 +108,13 @@
       _kind_hint: measure
       measure: alert_count
       type: count_distinct
+      _type_hint: number
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
+      type: count_distinct
+      _kind_hint: measure
       _type_hint: number
     show_view_names: false
     show_row_numbers: true
@@ -125,9 +138,9 @@
     minimum_column_width: 75
     series_labels:
       events__security_result_for.about__file__hash: Hash
-    series_cell_visualizations:
-      alert_count:
-        is_active: false
+      count_of_metadata_id: Alert Count
+    series_column_widths:
+      events__security_result_for.about__file__hash: 444
     hidden_pivots: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -155,8 +168,6 @@
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 1
-    series_column_widths:
-      events__security_result_for.about__file__hash: 444
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 8
@@ -168,8 +179,8 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__security_result.about__url__domain, count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id]
+    fields: [events__security_result.about__url__domain, count_of_metadata_id]
+    sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -177,6 +188,13 @@
       based_on: events.metadata__product_log_id
       expression: ''
       label: Count of Metadata Product Log ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -202,13 +220,11 @@
     minimum_column_width: 75
     series_labels:
       events__security_result.about__url__domain: Domain
-      count_of_metadata_product_log_id: Alert Count
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
-    defaults_version: 1
+      count_of_metadata_id: Alert Count
     series_column_widths:
-      events__security_result.about__url__domain: 214
+      events__security_result.about__url__domain: 314
+    defaults_version: 1
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 8
@@ -220,10 +236,10 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__security_result__associations.name, count_of_metadata_product_log_id]
+    fields: [events__security_result__associations.name, count_of_metadata_id]
     filters:
       events__security_result__associations.name: "-EMPTY"
-    sorts: [count_of_metadata_product_log_id]
+    sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -231,6 +247,13 @@
       based_on: events.metadata__product_log_id
       expression: ''
       label: Count of Metadata Product Log ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -256,13 +279,11 @@
     minimum_column_width: 75
     series_labels:
       events__security_result__associations.name: Malware
-      count_of_metadata_product_log_id: Alert Count
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
-    defaults_version: 1
+      count_of_metadata_id: Alert Count
     series_column_widths:
-      events__security_result__associations.name: 199
+      events__security_result__associations.name: 140
+    defaults_version: 1
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 8
