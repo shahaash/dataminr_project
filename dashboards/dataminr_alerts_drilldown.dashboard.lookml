@@ -10,8 +10,8 @@
     model: dataminr_project
     explore: events
     type: looker_google_map
-    fields: [events.event__location, count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id desc 0]
+    fields: [events.event__location, events.location_count]
+    sorts: [events.location_count desc 0]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -24,7 +24,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
-    show_view_names: true
+    show_view_names: false
     map_plot_mode: points
     heatmap_gridlines: false
     heatmap_gridlines_empty: false
@@ -45,9 +45,26 @@
     show_legend: true
     quantize_map_value_colors: false
     reverse_map_value_colors: false
+    show_row_numbers: true
+    truncate_column_names: false
+    hide_totals: false
+    hide_row_totals: false
+    table_theme: editable
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
     defaults_version: 0
     title_hidden: true
-    row: 0
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 2
     col: 0
     width: 12
     height: 8
@@ -56,9 +73,10 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__security_result__category_details.events__security_result__category_details,
+    fields: [events.event_timestamp_in_week, events__security_result__category_details.events__security_result__category_details,
       count_of_metadata_product_log_id]
-    sorts: [count_of_metadata_product_log_id desc 0]
+    filters: {}
+    sorts: [events.event_timestamp_in_week desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -92,12 +110,25 @@
     series_labels:
       events__security_result__category_details.events__security_result__category_details: Categories
       count_of_metadata_product_log_id: Count
+      events.event_timestamp_in_week: Time
+    series_column_widths:
+      events.event_timestamp_in_week: 81.81100000000004
+      events__security_result__category_details.events__security_result__category_details: 491
+      count_of_metadata_product_log_id: 250
     series_cell_visualizations:
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
     title_hidden: true
-    row: 0
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 2
     col: 12
     width: 12
     height: 8
@@ -139,8 +170,22 @@
       events__target__labels.value: Source Link
     defaults_version: 1
     hidden_fields: [events__target__labels.key]
+    series_column_widths:
+      events.metadata__description: 984.629
+      events.event_timestamp_date_time: 132
+      events__target__labels.value: 656
+    column_order: ["$$$_row_numbers_$$$", events.metadata__description, events.event_timestamp_date_time,
+      events__target__labels.value]
     title_hidden: true
-    row: 8
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 10
     col: 0
     width: 24
     height: 9
@@ -149,11 +194,9 @@
     model: dataminr_project
     explore: events
     type: looker_pie
-    fields: [events__target__resource__attribute__labels.key, events__target__resource__attribute__labels.value,
-      count_of_metadata_product_log_id]
-    filters:
-      events__target__resource__attribute__labels.key: '"post_media_source"'
-    sorts: [count_of_metadata_product_log_id desc 0]
+    fields: [count_of_metadata_id, alerts_by_source.alert_by_source_value]
+    filters: {}
+    sorts: [count_of_metadata_id desc 0]
     limit: 10
     column_limit: 50
     dynamic_fields:
@@ -161,6 +204,13 @@
       based_on: events.metadata__product_log_id
       expression: ''
       label: Count of Metadata Product Log ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -182,8 +232,17 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     defaults_version: 1
-    hidden_fields: [events__target__resource__attribute__labels.key]
-    row: 17
+    hidden_fields: []
+    hidden_pivots: {}
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 19
     col: 0
     width: 12
     height: 7
@@ -192,11 +251,11 @@
     model: dataminr_project
     explore: events
     type: looker_pie
-    fields: [events.principal__application, count_of_metadata_product_log_id]
+    fields: [count_of_metadata_product_log_id, alert_source.alert_source_value]
     filters:
-      events.principal__application: "-EMPTY"
+      alert_source.alert_source_value: "-NULL"
     sorts: [count_of_metadata_product_log_id desc 0]
-    limit: 15
+    limit: 500
     column_limit: 50
     dynamic_fields:
     - measure: count_of_metadata_product_log_id
@@ -224,7 +283,15 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     defaults_version: 1
-    row: 17
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 19
     col: 12
     width: 12
     height: 7
@@ -233,11 +300,12 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [count_of_metadata_product_log_id, events__principal__ip.events__principal__ip__regex]
+    fields: [events__principal__ip.events__principal__ip__regex, events.ip_count,
+      events.ip_count_percent]
     filters:
       events__principal__ip.events__principal__ip__regex: "-EMPTY"
-    sorts: [count_of_metadata_product_log_id desc 0]
-    limit: 10
+    sorts: [events.ip_count desc 0]
+    limit: 5000
     column_limit: 50
     dynamic_fields:
     - measure: count_of_metadata_product_log_id
@@ -269,12 +337,21 @@
     minimum_column_width: 75
     series_labels:
       events__principal__ip.events__principal__ip__regex: IP
-      count_of_metadata_product_log_id: count
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
     defaults_version: 1
-    row: 24
+    hidden_pivots: {}
+    series_column_widths:
+      events__principal__ip.events__principal__ip__regex: 106.81100000000004
+      events.ip_count: 117
+      events.ip_count_percent: 126
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 26
     col: 0
     width: 8
     height: 6
@@ -283,11 +360,11 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events__extensions__vulns__vulnerabilities.cve_id, count_of_metadata_product_log_id]
+    fields: [events__extensions__vulns__vulnerabilities.cve_id, events.ip_count, events.ip_count_percent]
     filters:
       events__extensions__vulns__vulnerabilities.cve_id: "-EMPTY"
-    sorts: [count_of_metadata_product_log_id desc 0]
-    limit: 10
+    sorts: [events.ip_count desc 0]
+    limit: 5000
     column_limit: 50
     dynamic_fields:
     - measure: count_of_metadata_product_log_id
@@ -318,14 +395,17 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
-      count_of_metadata_product_log_id: count
       events__extensions__vulns__vulnerabilities.cve_id: CVE
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
     defaults_version: 1
-    listen: {}
-    row: 24
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 26
     col: 8
     width: 8
     height: 6
@@ -334,11 +414,11 @@
     model: dataminr_project
     explore: events
     type: looker_grid
-    fields: [events.principal__port, count_of_metadata_product_log_id]
+    fields: [events.principal__port, events.ip_count, events.ip_count_percent]
     filters:
       events.principal__port: NOT NULL
-    sorts: [count_of_metadata_product_log_id desc 0]
-    limit: 10
+    sorts: [events.ip_count_percent desc]
+    limit: 5000
     column_limit: 50
     dynamic_fields:
     - measure: count_of_metadata_product_log_id
@@ -369,14 +449,123 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
-      count_of_metadata_product_log_id: count
       events.principal__port: Port
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
     defaults_version: 1
-    listen: {}
-    row: 24
+    hidden_pivots: {}
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.event__location
+      Source: alerts_by_source.alert_by_source_value
+      Company: company_name.company_name_value
+      Topic: events__security_result__category_details.events__security_result__category_details
+      Severity: events__about__labels__alert_type_name.value
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 26
     col: 16
     width: 8
     height: 6
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"h3","children":[{"text":"An overview of your Dataminr alerts
+      stored in Splunk."}]}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 0
+    col: 0
+    width: 24
+    height: 2
+  filters:
+  - name: Select Time Range
+    title: Select Time Range
+    type: field_filter
+    default_value: 24 hour
+    allow_multiple_values: false
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+      options: []
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: events.event_timestamp_date_time
+  - name: Location
+    title: Location
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+      options: []
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: events.event__location
+  - name: Source
+    title: Source
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: dropdown_menu
+      display: inline
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: alerts_by_source.alert_by_source_value
+  - name: Company
+    title: Company
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: dropdown_menu
+      display: popover
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: company_name.company_name_value
+  - name: Severity
+    title: Severity
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: dropdown_menu
+      display: popover
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: events__about__labels__alert_type_name.value
+  - name: Topic
+    title: Topic
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: dropdown_menu
+      display: popover
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: events__security_result__category_details.events__security_result__category_details
+  - name: Watchlist
+    title: Watchlist
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: dropdown_menu
+      display: popover
+    model: dataminr_project
+    explore: events
+    listens_to_filters: []
+    field: watchlist_name.watchlist_name_value
