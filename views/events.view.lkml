@@ -237,6 +237,14 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Product Log ID"
   }
+  dimension: external_cyber_link {
+    sql: "link" ;;
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=metadata.id = b\"{{ events.metadata__id | url_encode }}\"&startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
+    html: <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/link.svg" width="15" height="15" alt="link" /> ;;
+  }
   # count for Metadata and using alertType name filter.
   measure: severity_count {
     type: count
@@ -246,6 +254,13 @@ view: events {
     link: {
       label: "View in Chronicle"
       url: "@{CHRONICLE_URL}/search?query=about.labels[\"alertType_name\"] = \"{{ events__about__labels__alert_type_name.value | url_encode }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+    }
+  }
+  measure:  selectedtopic_count{
+    type: count
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=security_result.category_details=\"{{events__security_result__category_details.events__security_result__category_details}}\" AND security_result.detection_fields.key=\"{{events__security_result__detection_fields.key}}\" AND security_result.detection_fields.value=\"{{events__security_result__detection_fields.value}}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
     }
   }
   # measure for last date

@@ -80,6 +80,8 @@ looker.plugins.visualizations.add({
 
     // Display the text line below the count value
     this.textContainer.textContent = "Today vs Yesterday";
+    this.textContainer.style.fontSize = "12px";
+    this.textContainer.style.fontFamily = "Arial, Helvetica, sans-serif";
 
     // Extract data from Looker's query response
     var labels = [];
@@ -108,7 +110,7 @@ looker.plugins.visualizations.add({
             label: null,
             data: datasets,
             fill: false,
-            borderColor: 'rgb(0, 0, 0)',
+            borderColor: color,
             pointRadius: 0,
             tension: 0.1
           }],
