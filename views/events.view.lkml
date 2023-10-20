@@ -245,7 +245,7 @@ view: events {
     html:<p>Count: {{ value }}</p> ;;
     link: {
       label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=about.labels[\"alertType_name\"] = \"{{ events__about__labels__alert_type_name.value}}\" {% if _filters['events__about__labels__watchlist_name.value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['events__about__labels__watchlist_name.value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
+      url: "@{CHRONICLE_URL}/search?query=about.labels[\"alertType_name\"] = \"{{ events__about__labels__alert_type_name.value | url_encode }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} &startTime={{ events.lower_date | url_encode }}&endTime={{ events.upper_date | url_encode }}"
     }
   }
   # measure for last date
@@ -29134,6 +29134,10 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Occurrence Count"
     html:<p>Count: {{ value }}</p> ;;
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ occurrence_trend.occurrence_trend_value }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} &startTime={{ events.lower_date }}&endTime={{ events.upper_date }}"
+    }
   }
   # count of metadata id for location values (Distribution by Location)
   measure: location_count {
@@ -29702,9 +29706,18 @@ view: alert_source {
   CASE
   WHEN events.principal.application in (SELECT events_principal__application from (SELECT
       events.principal.application  AS events_principal__application,
-      COUNT(DISTINCT events.metadata.product_log_id ) AS count
+      COUNT(DISTINCT events.metadata.id ) AS count
   FROM `datalake.events`  AS events
-  WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+  WHERE LENGTH(events.principal.application ) <> 0 AND
+  (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+  {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+  {% condition severity_derived %} (events__about__labels__alert_type_name.value) {% endcondition %} AND
+  {% condition src_app_derived %} (events.src.application) {% endcondition %} AND
+  {% condition location_derived %} (events.principal.location.region_coordinates.latitude) AND (events.principal.location.region_coordinates.longitude) {% endcondition %} AND
+  {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND
+  {% condition company_derived %} (events__security_result.about.resource.name) {% endcondition %} AND
+  {% condition category_derived %} (events__security_result__category_details) {% endcondition %} AND
+  (events.principal.application ) IS NOT NULL
   GROUP BY
       1
   ORDER BY
@@ -29714,12 +29727,42 @@ view: alert_source {
   END AS events_principal__application,
       events.metadata.id  AS events_metadata__id
   FROM `datalake.events`  AS events
-  WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+  WHERE LENGTH(events.principal.application ) <> 0 AND
+  (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+  {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+  {% condition severity_derived %} (events__about__labels__alert_type_name.value) {% endcondition %} AND
+  {% condition src_app_derived %} (events.src.application) {% endcondition %} AND
+  {% condition location_derived %} (events.principal.location.region_coordinates.latitude) AND (events.principal.location.region_coordinates.longitude) {% endcondition %} AND
+  {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND
+  {% condition company_derived %} (events__security_result.about.resource.name) {% endcondition %} AND
+  {% condition category_derived %} (events__security_result__category_details) {% endcondition %} AND
+  (events.principal.application ) IS NOT NULL
   GROUP BY
       1,
       2
   ORDER BY
       1;;
+  }
+  filter: time_derived {
+    type: date_time
+  }
+  filter: watchlist_derived {
+    type: string
+  }
+  filter: src_app_derived {
+    type: string
+  }
+  filter: company_derived {
+    type: string
+  }
+  filter: severity_derived {
+    type: string
+  }
+  filter: category_derived {
+    type: string
+  }
+  filter: location_derived {
+    type: string
   }
   dimension: alert_source_id {
     type: string
@@ -29739,7 +29782,16 @@ view: alerts_by_source {
         events.src.application  AS events_src__application,
         COUNT(DISTINCT events.metadata.id ) AS count
     FROM `datalake.events`  AS events
-    WHERE LENGTH(events.src.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.src.application ) IS NOT NULL
+    WHERE LENGTH(events.src.application ) <> 0 AND
+    (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+    {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+    {% condition severity_derived %} (events__about__labels__alert_type_name.value) {% endcondition %} AND
+    {% condition src_app_derived %} (events.src.application) {% endcondition %} AND
+    {% condition location_derived %} (events.principal.location.region_coordinates.latitude) AND (events.principal.location.region_coordinates.longitude) {% endcondition %} AND
+    {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND
+    {% condition company_derived %} (events__security_result.about.resource.name) {% endcondition %} AND
+    {% condition category_derived %} (events__security_result__category_details) {% endcondition %} AND
+    (events.src.application ) IS NOT NULL
     GROUP BY
       1
     ORDER BY
@@ -29749,12 +29801,42 @@ view: alerts_by_source {
     END AS events_src__application,
       events.metadata.id  AS events_metadata__id
     FROM `datalake.events`  AS events
-    WHERE LENGTH(events.principal.application ) <> 0 AND (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events.principal.application ) IS NOT NULL
+    WHERE LENGTH(events.principal.application ) <> 0 AND
+    (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+    {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+    {% condition severity_derived %} (events__about__labels__alert_type_name.value) {% endcondition %} AND
+    {% condition src_app_derived %} (events.src.application) {% endcondition %} AND
+    {% condition location_derived %} (events.principal.location.region_coordinates.latitude) AND (events.principal.location.region_coordinates.longitude) {% endcondition %} AND
+    {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND
+    {% condition company_derived %} (events__security_result.about.resource.name) {% endcondition %} AND
+    {% condition category_derived %} (events__security_result__category_details) {% endcondition %} AND
+    (events.principal.application ) IS NOT NULL
     GROUP BY
         1,
         2
     ORDER BY
         1;;
+  }
+  filter: time_derived {
+    type: date_time
+  }
+  filter: watchlist_derived {
+    type: string
+  }
+  filter: src_app_derived {
+    type: string
+  }
+  filter: company_derived {
+    type: string
+  }
+  filter: severity_derived {
+    type: string
+  }
+  filter: category_derived {
+    type: string
+  }
+  filter: location_derived {
+    type: string
   }
   dimension: alert_by_source_id {
     type: string
@@ -29777,7 +29859,10 @@ view: company_name {
     LEFT JOIN UNNEST(events.security_result) as events__security_result
     LEFT JOIN UNNEST(events.about) as events__about
     LEFT JOIN UNNEST(labels) as events__about__labels
-    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result.about.resource.name ) IS NOT NULL
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+    {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+    {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND
+    (events__security_result.about.resource.name ) IS NOT NULL
     GROUP BY
         1
     ORDER BY
@@ -29790,7 +29875,10 @@ view: company_name {
     LEFT JOIN UNNEST(events.security_result) as events__security_result
     LEFT JOIN UNNEST(events.about) as events__about
     LEFT JOIN UNNEST(labels) as events__about__labels
-    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result.about.resource.name ) IS NOT NULL
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND
+    {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %}
+    AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %}
+    AND (events__security_result.about.resource.name ) IS NOT NULL
     GROUP BY
         1,
         2
@@ -29897,7 +29985,10 @@ view: occurrence_trend {
       LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
       LEFT JOIN UNNEST(events.about) as events__about
     LEFT JOIN UNNEST(labels) as events__about__labels
-      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result__category_details ) IS NOT NULL
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" )
+      AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %}
+      AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %}
+      AND (events__security_result__category_details ) IS NOT NULL
       GROUP BY
           1
       ORDER BY
@@ -29911,7 +30002,10 @@ view: occurrence_trend {
       LEFT JOIN UNNEST(events__security_result.category_details) as events__security_result__category_details
       LEFT JOIN UNNEST(events.about) as events__about
     LEFT JOIN UNNEST(labels) as events__about__labels
-      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %} AND (events__security_result__category_details ) IS NOT NULL
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" )
+      AND {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %}
+      AND {% condition watchlist_derived %} (events__about__labels.value) {% endcondition %}
+      AND (events__security_result__category_details ) IS NOT NULL
       GROUP BY
         1,
         2
