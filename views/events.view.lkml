@@ -29175,6 +29175,52 @@ view: events {
     group_item_label: "IP count percent"
     value_format: "0.000000"
   }
+  # alert source count
+  measure: alert_source_count {
+    type: count
+    group_label: "Metadata"
+    group_item_label: "Alert Source Count"
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=principal.application=\"{{ alert_source.alert_source_value }}\"
+      {% if _filters['events.event__location'] %} AND
+      (\"eventLocation.coordinates\"=\"{{ _filters['events.event__location'] | replace:',','\" OR
+      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['alerts_by_source.alert_by_source_value'] %} AND
+      (\"src.application\"=\"{{ _filters['alerts_by_source.alert_by_source_value'] | replace:',','\" OR
+      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['company_name.company_name_value'] %} AND
+      (\"security_result.about.resource.name\"=\"{{ _filters['company_name.company_name_value'] | replace:',','\" OR
+      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['watchlist_name.watchlist_name_value'] %} AND
+      (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR
+      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}
+      &startTime={{ lower_date }}&endTime={{ upper_date }}"
+    }
+  }
+  #alert by source count
+  measure: alert_by_source_count {
+    type: count
+    group_label: "Metadata"
+    group_item_label: "Alert by Source Count"
+    link: {
+      label: "View in Chronicle"
+      url: "@{CHRONICLE_URL}/search?query=src.application=\"{{ alerts_by_source.alert_by_source_value }}\"
+      {% if _filters['events.event__location'] %} AND
+      (\"eventLocation.coordinates\"=\"{{ _filters['events.event__location'] | replace:',','\" OR
+      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['alerts_by_source.alert_by_source_value'] %} AND
+      (\"src.application\"=\"{{ _filters['alerts_by_source.alert_by_source_value'] | replace:',','\" OR
+      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['company_name.company_name_value'] %} AND
+      (\"security_result.about.resource.name\"=\"{{ _filters['company_name.company_name_value'] | replace:',','\" OR
+      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
+      {% if _filters['watchlist_name.watchlist_name_value'] %} AND
+      (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR
+      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}
+      &startTime={{ lower_date }}&endTime={{ upper_date }}"
+    }
+  }
 
   # ----- Sets of fields for drilling ------
   set: detail {
