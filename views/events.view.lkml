@@ -29151,7 +29151,10 @@ view: events {
     html:<p>Count: {{ value }}</p> ;;
     link: {
       label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ occurrence_trend.occurrence_trend_value }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} &startTime={{ events.lower_date }}&endTime={{ events.upper_date }}"
+      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ occurrence_trend.occurrence_trend_value }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND
+      (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR
+      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}
+      &startTime={{ events.lower_date }}&endTime={{ events.upper_date }}"
     }
   }
   # count of metadata id for location values (Distribution by Location)
@@ -29182,19 +29185,24 @@ view: events {
     group_item_label: "Alert Source Count"
     link: {
       label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=principal.application=\"{{ alert_source.alert_source_value }}\"
-      {% if _filters['events.event__location'] %} AND
+      url: "@{CHRONICLE_URL}/search?query=principal.application=\"{{ alert_source.alert_source_value }}\" ({% if _filters['events.event__location'] %} AND
       (\"eventLocation.coordinates\"=\"{{ _filters['events.event__location'] | replace:',','\" OR
-      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['alerts_by_source.alert_by_source_value'] %} AND
+      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['alerts_by_source.alert_by_source_value'] %} AND
       (\"src.application\"=\"{{ _filters['alerts_by_source.alert_by_source_value'] | replace:',','\" OR
-      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['company_name.company_name_value'] %} AND
+      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['company_name.company_name_value'] %} AND
       (\"security_result.about.resource.name\"=\"{{ _filters['company_name.company_name_value'] | replace:',','\" OR
-      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['watchlist_name.watchlist_name_value'] %} AND
+      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['events__security_result__category_details.events__security_result__category_details'] %} AND
+      (\"security_result.category_details\"=\"{{ _filters['events__security_result__category_details.events__security_result__category_details'] | replace:',','\" OR
+      \"security_result.category_details\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['events__about__labels__alert_type_name.value'] %} AND
+      (about.labels[\"alertType_name\"]=\"{{ _filters['events__about__labels__alert_type_name.value'] | replace:',','\" OR
+      about.labels[\"alertType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['watchlist_name.watchlist_name_value'] %} AND
       (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR
-      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}
+      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %})
       &startTime={{ lower_date }}&endTime={{ upper_date }}"
     }
   }
@@ -29205,19 +29213,24 @@ view: events {
     group_item_label: "Alert by Source Count"
     link: {
       label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=src.application=\"{{ alerts_by_source.alert_by_source_value }}\"
-      {% if _filters['events.event__location'] %} AND
+      url: "@{CHRONICLE_URL}/search?query=src.application=\"{{ alerts_by_source.alert_by_source_value }}\" ({% if _filters['events.event__location'] %} AND
       (\"eventLocation.coordinates\"=\"{{ _filters['events.event__location'] | replace:',','\" OR
-      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['alerts_by_source.alert_by_source_value'] %} AND
+      \"eventLocation.coordinates\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['alerts_by_source.alert_by_source_value'] %} AND
       (\"src.application\"=\"{{ _filters['alerts_by_source.alert_by_source_value'] | replace:',','\" OR
-      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['company_name.company_name_value'] %} AND
+      \"src.application\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['company_name.company_name_value'] %} AND
       (\"security_result.about.resource.name\"=\"{{ _filters['company_name.company_name_value'] | replace:',','\" OR
-      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %} AND
-      {% if _filters['watchlist_name.watchlist_name_value'] %} AND
+      \"security_result.about.resource.name\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['events__security_result__category_details.events__security_result__category_details'] %} AND
+      (\"security_result.category_details\"=\"{{ _filters['events__security_result__category_details.events__security_result__category_details'] | replace:',','\" OR
+      \"security_result.category_details\"=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['events__about__labels__alert_type_name.value'] %} AND
+      (about.labels[\"alertType_name\"]=\"{{ _filters['events__about__labels__alert_type_name.value'] | replace:',','\" OR
+      about.labels[\"alertType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}) AND
+      ({% if _filters['watchlist_name.watchlist_name_value'] %} AND
       (about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR
-      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %}
+      about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"){% else %}{% endif %})
       &startTime={{ lower_date }}&endTime={{ upper_date }}"
     }
   }
