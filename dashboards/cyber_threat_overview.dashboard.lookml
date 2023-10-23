@@ -425,6 +425,11 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
     series_column_widths:
       events.event_timestamp_date_time: 157
       events.metadata__description: 1235
@@ -475,6 +480,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 160
       events.metadata__description: 1750
@@ -527,6 +538,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 157
       events.metadata__description: 1285
@@ -578,6 +595,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 155
       events.metadata__description: 1336
