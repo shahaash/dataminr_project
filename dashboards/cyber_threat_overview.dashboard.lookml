@@ -54,8 +54,8 @@
     defaults_version: 0
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 0
     col: 0
     width: 6
@@ -144,8 +144,8 @@
     series_column_widths:
       events__security_result__category_details.events__security_result__category_details: 441
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 6
     col: 0
     width: 6
@@ -217,8 +217,8 @@
     defaults_version: 0
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 24
     col: 0
     width: 24
@@ -272,8 +272,8 @@
     defaults_version: 0
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 0
     col: 6
     width: 6
@@ -326,8 +326,8 @@
     conditional_formatting_include_nulls: false
     defaults_version: 0
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 0
     col: 12
     width: 6
@@ -382,8 +382,8 @@
     defaults_version: 0
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 0
     col: 18
     width: 6
@@ -425,6 +425,11 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
     series_column_widths:
       events.event_timestamp_date_time: 157
       events.metadata__description: 1235
@@ -433,7 +438,7 @@
     defaults_version: 1
     hidden_fields: [events__security_result.about__resource__name, events.metadata__product_log_id]
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 12
     col: 0
     width: 12
@@ -475,6 +480,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 160
       events.metadata__description: 1750
@@ -484,7 +495,7 @@
     defaults_version: 1
     hidden_fields: [events.metadata__product_log_id]
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 12
     col: 12
     width: 12
@@ -527,6 +538,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 157
       events.metadata__description: 1285
@@ -536,7 +553,7 @@
     defaults_version: 1
     hidden_fields: [events.metadata__product_log_id]
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 18
     col: 12
     width: 12
@@ -578,6 +595,12 @@
     minimum_column_width: 75
     series_labels:
       events.external_cyber_link: Raw Logs
+      events.event_timestamp_date_time: Event Time
+      events.metadata__description: caption
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
+      events__about__labels__alert_type_name.cyber_severity: severity
+      events.src__application: eventSource
+      events__security_result.about__resource__name: company
     series_column_widths:
       events.event_timestamp_date_time: 155
       events.metadata__description: 1336
@@ -587,7 +610,7 @@
     defaults_version: 1
     hidden_fields: [events.metadata__product_log_id]
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 18
     col: 0
     width: 12
@@ -676,8 +699,8 @@
     series_column_widths:
       events__security_result__category_details.events__security_result__category_details: 620
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 6
     col: 12
     width: 6
@@ -766,8 +789,8 @@
     series_column_widths:
       events__security_result__category_details.events__security_result__category_details: 460
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 6
     col: 6
     width: 6
@@ -857,15 +880,15 @@
     series_column_widths:
       events__security_result__category_details.events__security_result__category_details: 484
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
-      Watchlist Name Value: watchlist_name.watchlist_name_value
+      Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 6
     col: 18
     width: 6
     height: 6
   filters:
-  - name: Event Timestamp Date Time
-    title: Event Timestamp Date Time
+  - name: Select Time Range
+    title: Select Time Range
     type: field_filter
     default_value: 14 day
     allow_multiple_values: false
@@ -878,8 +901,8 @@
     explore: events
     listens_to_filters: []
     field: events.event_timestamp_date_time
-  - name: Watchlist Name Value
-    title: Watchlist Name Value
+  - name: Watchlist
+    title: Watchlist
     type: field_filter
     default_value: ''
     allow_multiple_values: true
