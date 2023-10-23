@@ -57,12 +57,13 @@
     defaults_version: 0
     title_hidden: true
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 2
     col: 0
     width: 12
@@ -113,19 +114,20 @@
     series_column_widths:
       events.event_timestamp_in_week: 81.81100000000004
       events__security_result__category_details.events__security_result__category_details: 491
-      count_of_metadata_product_log_id: 250
+      count_of_metadata_product_log_id: 76
     series_cell_visualizations:
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
     title_hidden: true
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 2
     col: 12
     width: 12
@@ -140,7 +142,7 @@
     filters:
       events__target__labels.key: '"post_link"'
     sorts: [events.event_timestamp_date_time desc]
-    limit: 500
+    limit: 5000
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
@@ -177,12 +179,13 @@
     hidden_fields: [events__target__labels.key]
     title_hidden: true
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 10
     col: 0
     width: 24
@@ -193,6 +196,8 @@
     explore: events
     type: looker_pie
     fields: [alerts_by_source.alert_by_source_value, events.alert_by_source_count]
+    filters:
+      alerts_by_source.alert_by_source_value: "-NULL"
     sorts: [events.alert_by_source_count desc 0]
     limit: 10
     column_limit: 50
@@ -232,12 +237,13 @@
     hidden_fields: []
     hidden_pivots: {}
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 19
     col: 0
     width: 12
@@ -281,12 +287,13 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 19
     col: 12
     width: 12
@@ -333,19 +340,22 @@
     minimum_column_width: 75
     series_labels:
       events__principal__ip.events__principal__ip__regex: IP
-    defaults_version: 1
-    hidden_pivots: {}
+      events.ip_count: count
+      events.ip_count_percent: percent
     series_column_widths:
       events__principal__ip.events__principal__ip__regex: 106.81100000000004
       events.ip_count: 117
       events.ip_count_percent: 126
+    defaults_version: 1
+    hidden_pivots: {}
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 26
     col: 0
     width: 8
@@ -391,14 +401,17 @@
     minimum_column_width: 75
     series_labels:
       events__extensions__vulns__vulnerabilities.cve_id: CVE
+      events.ip_count: count
+      events.ip_count_percent: percent
     defaults_version: 1
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 26
     col: 8
     width: 8
@@ -444,15 +457,18 @@
     minimum_column_width: 75
     series_labels:
       events.principal__port: Port
+      events.ip_count: count
+      events.ip_count_percent: percent
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Source: alerts_by_source.alert_by_source_value
-      Severity: events__about__labels__alert_type_name.value
       Select Time Range: events.event_timestamp_date_time
-      Event Location: events.event__location
-      'Company ': company_name.company_name_value
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
       Topic: events__security_result__category_details.events__security_result__category_details
+      Watchlist: watchlist_name.watchlist_name_value
+      Location: events.principal__location__country_or_region
     row: 26
     col: 16
     width: 8
@@ -483,20 +499,19 @@
     explore: events
     listens_to_filters: []
     field: events.event_timestamp_date_time
-  - name: Event Location
-    title: Event Location
+  - name: Location
+    title: Location
     type: field_filter
     default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
-      type: advanced
-      display: popover
-      options: []
+      type: dropdown_menu
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
-    field: events.event__location
+    field: events.principal__location__country_or_region
   - name: Source
     title: Source
     type: field_filter
@@ -505,20 +520,20 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
-    field: alerts_by_source.alert_by_source_value
-  - name: 'Company '
-    title: 'Company '
+    field: alerts_by_source.alert_by_source_value_filter
+  - name: Company
+    title: Company
     type: field_filter
     default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
@@ -544,20 +559,20 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
     field: events__security_result__category_details.events__security_result__category_details
-  - name: Watchlist Name Value
-    title: Watchlist Name Value
+  - name: Watchlist
+    title: Watchlist
     type: field_filter
     default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
