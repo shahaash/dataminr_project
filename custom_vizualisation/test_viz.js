@@ -40,7 +40,6 @@ looker.plugins.visualizations.add({
     var threatcolumn = queryResponse.fields.measure_like[0].name
     // Calculate the count value from the data
     const count = data.length;
-
     let list=[]
     let list1=[]
     for (var i of queryResponse.fields.measures) {
@@ -54,9 +53,9 @@ looker.plugins.visualizations.add({
     });
     // Calculate the percentage value based on the available count
     const estimatedTotalItems = 100;
-    const threat_count = data[0][threatcolumn].value;
-    const threat_count_difference = threat_count - data[1][threatcolumn].value
-    const percentage = ((threat_count_difference / data[1][threatcolumn].value) * estimatedTotalItems).toFixed(2);
+    const threat_count = count ? data[0][threatcolumn].value:0;
+    const threat_count_difference = count ? threat_count - data[1][threatcolumn].value:0
+    const percentage = count ? ((threat_count_difference / data[1][threatcolumn].value) * estimatedTotalItems).toFixed(2):0;
     const arrowIcon = percentage > 0 ? '➚' : '➘';
 
     var color;
