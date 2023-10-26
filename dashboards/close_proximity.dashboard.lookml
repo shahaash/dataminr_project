@@ -48,7 +48,7 @@
       events.principal__location__region_coordinates__longitude: NOT NULL
       events.asset_distance_miles: NOT NULL
     sorts: [events.asset_name]
-    limit: 5000
+    limit: 500
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
@@ -127,11 +127,12 @@
     map_value_colors: ["#F0BE1B", "#FF8800", "#D25B3B", "#323232"]
     defaults_version: 1
     hidden_pivots: {}
-    listen: {}
+    listen:
+      Select Time Range: close_proxymity_map.time_derived
     row: 2
     col: 0
     width: 12
-    height: 7
+    height: 9
   filters:
   - name: Select Time Range
     title: Select Time Range
