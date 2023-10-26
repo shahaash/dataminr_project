@@ -48,7 +48,7 @@
       events.principal__location__region_coordinates__longitude: NOT NULL
       events.asset_distance_miles: NOT NULL
     sorts: [events.asset_name]
-    limit: 500
+    limit: 5000
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
@@ -80,16 +80,24 @@
     col: 12
     width: 12
     height: 14
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"h3","align":"start","children":[{"text":"This dashboards
+      shows Dataminr alerts within threshold miles from important customer locations."}],"id":1697088043430}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 0
+    col: 0
+    width: 24
+    height: 2
   - title: Alerts in Close Proximity
     name: Alerts in Close Proximity
     model: dataminr_project
-    explore: events
+    explore: close_proxymity_map
     type: looker_map
-    fields: [events.event__location, events__about__labels__alert_type_name.alert_type]
-    filters:
-      events.asset_distance_miles: NOT NULL
-      events__about__labels__alert_type_name.value: "-NULL"
-    sorts: [events.event__location]
+    fields: [close_proxymity_map.static_location, close_proxymity_map.proximity_alert_type]
+    sorts: [close_proxymity_map.static_location]
     limit: 500
     column_limit: 50
     map_plot_mode: points
@@ -106,76 +114,24 @@
     map_marker_type: icon
     map_marker_icon_name: default
     map_marker_radius_mode: proportional_value
-    map_marker_units: pixels
+    map_marker_units: meters
     map_marker_proportional_scale_type: linear
     map_marker_color_mode: value
     show_view_names: false
-    show_legend: true
+    show_legend: false
     quantize_map_value_colors: false
     reverse_map_value_colors: false
-    map_value_colors: ["#F0BE1B", "#FF8800", "#D25B3B"]
-    map: world
-    map_projection: ''
-    hidden_fields: []
-    hidden_points_if_no: []
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
+    map_latitude:
+    map_longitude:
+    map_zoom:
+    map_value_colors: ["#F0BE1B", "#FF8800", "#D25B3B", "#323232"]
     defaults_version: 1
-    show_row_numbers: true
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    enable_conditional_formatting: false
-    header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
     hidden_pivots: {}
-    listen:
-      Select Time Range: events.event_timestamp_date_time
+    listen: {}
     row: 2
     col: 0
     width: 12
     height: 7
-  - name: ''
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: '[{"type":"h3","align":"start","children":[{"text":"This dashboards
-      shows Dataminr alerts within threshold miles from important customer locations."}],"id":1697088043430}]'
-    rich_content_json: '{"format":"slate"}'
-    row: 0
-    col: 0
-    width: 24
-    height: 2
   filters:
   - name: Select Time Range
     title: Select Time Range

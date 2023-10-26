@@ -15,6 +15,7 @@ explore:  hashstaticdata {}
 explore: csvstaticdata {}
 explore: malwarestaticdata {}
 explore: iocs_derived {}
+explore: close_proxymity_map {}
 
 explore: events {
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;
