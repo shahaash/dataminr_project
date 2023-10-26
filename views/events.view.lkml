@@ -29216,6 +29216,7 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Company Count"
     html:<p>Count: {{ value }}</p> ;;
+
   }
   # count of metadata id for categories name (Occurrence Trend)
   measure: occurrence_count {
@@ -29225,7 +29226,7 @@ view: events {
     html:<p>Count: {{ value }}</p> ;;
     link: {
       label: "View in Chronicle"
-      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ occurrence_trend.occurrence_trend_value }}\" {% if _filters['watchlist_name.watchlist_name_value'] %} AND about.labels[\"watchlistsMatchedByType_name\"]=\"{{ _filters['watchlist_name.watchlist_name_value'] | replace:',','\" OR about.labels[\"watchlistsMatchedByType_name\"]=\"' | replace:'\"','' | url_encode }}\"{% else %}{% endif %} &startTime={{ lower_date }}&endTime={{ upper_date }}"
+      url: "@{CHRONICLE_URL}/search?query=security_result.category_details = \"{{ occurrence_trend.occurrence_trend_value | replace: '&amp;','%26' }}\" {% if _filters['occurrence_trend.watchlist_derived'] %} AND about.labels.key=\"watchlistsMatchedByType_name\" AND about.labels.value=\"{{ _filters['occurrence_trend.watchlist_derived'] | replace:',','\" OR about.labels.key=\"watchlistsMatchedByType_name\"=\"' | replace:'\"','' | url_encode }}\"{% else %}{% endif %} &startTime={{ lower_date }}&endTime={{ upper_date }}"
     }
   }
   # count of metadata id for location values (Distribution by Location)
