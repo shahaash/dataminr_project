@@ -1,3 +1,77 @@
+view: close_proxymity_map {
+  derived_table: {
+    sql: SELECT
+          events__about__labels__alert_type_name.value  AS events__about__labels__alert_type_name_value,
+          events.principal.location.region_coordinates.latitude  AS events_principal__location__region_coordinates__latitude,
+          events.principal.location.region_coordinates.longitude  AS events_principal__location__region_coordinates__longitude
+      FROM `datalake.events`  AS events
+      LEFT JOIN UNNEST(events.about) as events__about
+      LEFT JOIN UNNEST(labels) as events__about__labels__alert_type_name ON events__about__labels__alert_type_name.key = 'alertType_name'
+      WHERE {% condition time_derived %} TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds) {% endcondition %} AND
+      (events.metadata.log_type = "DATAMINR_ALERT" ) AND ((CASE
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 * ((events.principal.location.region_coordinates.latitude - 40.745900) / 2)), 2) + COS(0.01745329252 * (events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 * (40.745900)) * POW(SIN(0.01745329252 * ((events.principal.location.region_coordinates.longitude - (-73.983940)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 * ((events.principal.location.region_coordinates.latitude - 40.745900) / 2)), 2) + COS(0.01745329252 * (events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 * (40.745900)) * POW(SIN(0.01745329252 * ((events.principal.location.region_coordinates.longitude - (-73.983940)) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 45.6794878) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(45.6794878)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-111.0398014)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 45.6794878) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(45.6794878)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-111.0398014)) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 38.8940199) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(38.8940199)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-77.0683043)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 38.8940199) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(38.8940199)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-77.0683043)) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 53.3458505) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(53.3458505)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-6.245248)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 53.3458505) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(53.3458505)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-6.245248)) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 51.5037543) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(51.5037543)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-0.1181606)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 51.5037543) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(51.5037543)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-0.1181606)) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - (-37.8182119)) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(-37.8182119)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - 144.9521438) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - (-37.8182119)) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(-37.8182119)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - 144.9521438) / 2)), 2))))
+              WHEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 47.6054854) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(47.6054854)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-122.3354275)) / 2)), 2)))) <= 5 THEN (3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.latitude - 47.6054854) / 2)), 2) + COS(0.01745329252 *(events.principal.location.region_coordinates.latitude)) * COS(0.01745329252 *(47.6054854)) * POW(SIN(0.01745329252 *((events.principal.location.region_coordinates.longitude - (-122.3354275)) / 2)), 2))))
+              END)) IS NOT NULL AND (events__about__labels__alert_type_name.value ) IS NOT NULL
+      GROUP BY
+          1,
+          2,
+          3
+        UNION ALL select 'Dataminr_newyork' as events__about__labels__alert_type_name_value, 40.745900 as events_principal__location__region_coordinates__latitude, -73.983940 as events_principal__location__region_coordinates__longitude
+        UNION ALL select 'Dataminr_Bozeman' as events__about__labels__alert_type_name_value, 45.6794878 as events_principal__location__region_coordinates__latitude, -111.0398014 as events_principal__location__region_coordinates__longitude
+          UNION ALL select 'Dataminr_Virginia' as events__about__labels__alert_type_name_value, 38.8940199 as events_principal__location__region_coordinates__latitude, -77.0683043 as events_principal__location__region_coordinates__longitude
+          UNION ALL select 'Dataminr_Dublin' as events__about__labels__alert_type_name_value, 53.3458505 as events_principal__location__region_coordinates__latitude, -6.245248 as events_principal__location__region_coordinates__longitude
+          UNION ALL select 'Dataminr_London' as events__about__labels__alert_type_name_value, 51.5037543 as events_principal__location__region_coordinates__latitude, -0.1181606 as events_principal__location__region_coordinates__longitude
+          UNION ALL select 'Dataminr_Melbourne' as events__about__labels__alert_type_name_value, -37.8182119 as events_principal__location__region_coordinates__latitude, 144.9521438 as events_principal__location__region_coordinates__longitude
+          UNION ALL select 'Dataminr_Seattle' as events__about__labels__alert_type_name_value, 47.6054854 as events_principal__location__region_coordinates__latitude, -122.3354275 as events_principal__location__region_coordinates__longitude
+          ;;
+  }
+
+  filter: time_derived {
+    type: date_time
+  }
+
+  dimension: events__about__labels__alert_type_name_value {
+    sql: ${TABLE}.events__about__labels__alert_type_name_value ;;
+  }
+
+  dimension: lat {
+    sql: ${TABLE}.events_principal__location__region_coordinates__latitude ;;
+  }
+
+  dimension: long {
+    sql: ${TABLE}.events_principal__location__region_coordinates__longitude ;;
+  }
+
+  dimension: static_location {
+    type: location
+    label: " "
+    sql_latitude: ${lat} ;;
+    sql_longitude: ${long} ;;
+    group_label: "Event Location"
+    group_item_label: "Coordinates"
+    html: <p>Latitude: {{ lat }}</p>
+      <p>Longitude: {{ long }}</p> ;;
+  }
+
+  measure: proximity_alert_type {
+    type: number
+    label: " "
+    sql: CASE
+      WHEN ${events__about__labels__alert_type_name_value} = "Alert" THEN 1
+      WHEN ${events__about__labels__alert_type_name_value} = "Urgent" THEN 2
+      WHEN ${events__about__labels__alert_type_name_value} = "Flash" THEN 3
+      ELSE 4
+      END
+      ;;
+    html: <p>{{events__about__labels__alert_type_name_value}}</p> ;;
+  }
+}
+
 view: events {
   sql_table_name: `datalake.events` ;;
   dimension: about {

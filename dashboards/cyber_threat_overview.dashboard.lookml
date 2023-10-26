@@ -154,7 +154,7 @@
     name: Cyber Alert Distributions
     model: dataminr_project
     explore: events
-    type: looker_google_map
+    type: looker_map
     fields: [events.event__location, count_of_metadata_id]
     filters:
       events.metadata__product_log_id: "-NULL"
@@ -191,9 +191,6 @@
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
-    hidden_fields: []
-    hidden_points_if_no: []
-    show_view_names: true
     map_plot_mode: points
     heatmap_gridlines: false
     heatmap_gridlines_empty: false
@@ -202,6 +199,7 @@
     draw_map_labels_above_data: true
     map_tile_provider: light
     map_position: fit_data
+    map_scale_indicator: 'off'
     map_pannable: true
     map_zoomable: true
     map_marker_type: circle
@@ -210,11 +208,14 @@
     map_marker_units: pixels
     map_marker_proportional_scale_type: linear
     map_marker_color_mode: fixed
-    map_marker_color: ["#800080"]
+    show_view_names: true
     show_legend: true
     quantize_map_value_colors: false
     reverse_map_value_colors: false
-    defaults_version: 0
+    hidden_fields: []
+    hidden_points_if_no: []
+    map_marker_color: ["#800080"]
+    defaults_version: 1
     hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
