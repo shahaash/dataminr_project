@@ -560,7 +560,7 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []
@@ -573,7 +573,7 @@
     required: false
     ui_config:
       type: dropdown_menu
-      display: popover
+      display: inline
     model: dataminr_project
     explore: events
     listens_to_filters: []

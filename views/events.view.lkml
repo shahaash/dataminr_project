@@ -29142,7 +29142,6 @@ view: events {
     group_label: "Metadata"
     group_item_label: "Company Count"
     html:<p>Count: {{ value }}</p> ;;
-
   }
   # count of metadata id for categories name (Occurrence Trend)
   measure: occurrence_count {
