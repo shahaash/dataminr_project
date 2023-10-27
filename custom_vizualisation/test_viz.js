@@ -54,8 +54,15 @@ looker.plugins.visualizations.add({
     // Calculate the percentage value based on the available count
     const estimatedTotalItems = 100;
     const threat_count = count ? data[0][threatcolumn].value:0;
-    const threat_count_difference = count ? threat_count - data[1][threatcolumn].value:0
-    const percentage = count ? ((threat_count_difference / data[1][threatcolumn].value) * estimatedTotalItems).toFixed(2):0;
+    var threat1_count = 0;
+    if (count != 1) {
+        threat1_count = data[1][threatcolumn].value
+    }
+    const threat_count_difference = count ? threat_count - threat1_count:0
+    var percentage = 0
+    if (count != 1) {
+        percentage = count ? ((threat_count_difference / threat1_count) * estimatedTotalItems).toFixed(2):0;
+    }
     const arrowIcon = percentage > 0 ? '➚' : '➘';
 
     var color;

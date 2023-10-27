@@ -16,6 +16,7 @@
       events.metadata__product_log_id: "-NULL"
       events__security_result__category_details.events__security_result__category_details: Advanced
         Persistent Threats,Ransomware,Hacktivists
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_month desc]
     limit: 500
     column_limit: 50
@@ -72,6 +73,7 @@
       events__security_result__detection_fields.key: '"categories_id"'
       events__security_result__category_details.events__security_result__category_details: Advanced
         Persistent Threats,Ransomware,Hacktivists
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.selectedtopic_count desc 0]
     limit: 500
     column_limit: 50
@@ -159,6 +161,7 @@
     filters:
       events.metadata__product_log_id: "-NULL"
       events__about__labels__watchlist_name.value: "-NULL"
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [count_of_metadata_id desc 0]
     limit: 500
     column_limit: 50
@@ -235,6 +238,7 @@
       events.metadata__product_log_id: "-NULL"
       events__security_result__category_details.events__security_result__category_details: Malware,Network
         Disruptions,Phishing,DDoS,Defacement,Network Scans,Domain Impersonation
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_month desc]
     limit: 500
     column_limit: 50
@@ -290,6 +294,7 @@
       events.metadata__product_log_id: "-NULL"
       events__security_result__category_details.events__security_result__category_details: Data
         Exposure and Breaches,Doxxing and Leaked Credentials
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_month desc]
     limit: 500
     column_limit: 50
@@ -345,6 +350,7 @@
       events__security_result__category_details.events__security_result__category_details: Email
         and Web Servers,Encryption and Certificates,Remote Access and Management Systems,Vulnerability
         Disclosures,Exploits,Bug Bounties
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_month desc]
     limit: 500
     column_limit: 50
@@ -401,6 +407,7 @@
     filters:
       events__security_result__category_details.events__security_result__category_details: Advanced
         Persistent Threats,Hacktivists,Ransomware
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
@@ -456,6 +463,7 @@
     filters:
       events__security_result__category_details.events__security_result__category_details: Malware,Network
         Disruptions,Phishing,DDoS,Defacement,Domain Impersonation,Network Scans
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
@@ -514,6 +522,7 @@
       events__security_result__category_details.events__security_result__category_details: Email
         and Web Servers,Encryption and Certificates,Remote Access and Management Systems,Vulnerability
         Disclosures,Exploits,Bug Bounties
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
@@ -571,6 +580,7 @@
     filters:
       events__security_result__category_details.events__security_result__category_details: Data
         Exposure and Breaches,Doxxing and Leaked Credentials
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
@@ -628,6 +638,7 @@
       events__security_result__detection_fields.key: '"categories_id"'
       events__security_result__category_details.events__security_result__category_details: Data
         Exposure and Breaches,Doxxing and Leaked Credentials
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.selectedtopic_count desc 0]
     limit: 500
     column_limit: 50
@@ -718,6 +729,7 @@
       events__security_result__detection_fields.key: '"categories_id"'
       events__security_result__category_details.events__security_result__category_details: Malware,Network
         Disruptions,Phishing,DDoS,Defacement,Domain Impersonation,Network Scans
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.selectedtopic_count desc 0]
     limit: 500
     column_limit: 50
@@ -809,6 +821,7 @@
       events__security_result__category_details.events__security_result__category_details: Email
         and Web Servers,Encryption and Certificates,Remote Access and Management Systems,Vulnerability
         Disclosures,Bug Bounties,Exploits
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.selectedtopic_count desc 0]
     limit: 500
     column_limit: 50
@@ -891,7 +904,7 @@
   - name: Select Time Range
     title: Select Time Range
     type: field_filter
-    default_value: 14 day
+    default_value: ''
     allow_multiple_values: false
     required: false
     ui_config:
