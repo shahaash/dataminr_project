@@ -18,6 +18,11 @@ explore: iocs_derived {}
 explore: close_proxymity_map {}
 
 explore: events {
+    join: alert_name_not_null {
+      type: left_outer
+      sql_on: ${events.metadata__id} = ${alert_name_not_null.alert_name_metadata_id} ;;
+      relationship: one_to_many
+    }
     sql_always_where: ${metadata__log_type} = "DATAMINR_ALERT" ;;
     join: malwarestaticdata {
       view_label: "Events: Malware"

@@ -42,11 +42,12 @@
     explore: events
     type: looker_grid
     fields: [events.asset_name, events.asset_type, events.metadata__description, events.metadata__product_log_id,
-      events__about__labels__alert_type_name.value, events.asset_distance_miles, events.external_link]
+      events.asset_distance_miles, events.external_link, alert_name_not_null.alert_name]
     filters:
       events.principal__location__region_coordinates__latitude: NOT NULL
       events.principal__location__region_coordinates__longitude: NOT NULL
       events.asset_distance_miles: NOT NULL
+      alert_name_not_null.alert_name: "-NULL"
     sorts: [events.asset_name]
     limit: 500
     column_limit: 50
@@ -72,7 +73,21 @@
     minimum_column_width: 75
     series_labels:
       events.external_link: Raw Logs
+      events.asset_name: asset_name
+      events.asset_type: asset_type
+      events.metadata__description: caption
+      events.metadata__product_log_id: alertId
+      events.asset_distance_miles: asset_distance_miles
+      alert_name_not_null.alert_name: alertType
     defaults_version: 1
+    column_order: ["$$$_row_numbers_$$$", events.asset_name, events.asset_type, events.metadata__description,
+      events.metadata__product_log_id, alert_name_not_null.alert_name, events.asset_distance_miles,
+      events.external_link]
+    series_column_widths:
+      events.asset_distance_miles: 159
+      events.metadata__product_log_id: 327
+      events.asset_name: 127
+      events.metadata__description: 1178
     title_hidden: true
     listen:
       Select Time Range: events.event_timestamp_date_time
