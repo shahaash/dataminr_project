@@ -30209,6 +30209,11 @@ view: watchlist_name {
     sql: ${TABLE}.events__about__labels_value ;;
   }
 
+  dimension: watchlist_name_value_filter {
+    type: string
+    sql: ${TABLE}.events__about__labels_value ;;
+  }
+
 }
 
 view: events__about {

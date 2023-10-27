@@ -14,6 +14,7 @@
     pivots: [events__about__labels__alert_type_name.value]
     filters:
       events__about__labels__alert_type_name.value: "-NULL"
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events__about__labels__alert_type_name.value desc]
     limit: 5000
     column_limit: 50
@@ -107,6 +108,7 @@
     fields: [events.company_count, company_name.company_name_value]
     filters:
       company_name.company_name_value: "-NULL"
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.company_count desc]
     limit: 500
     column_limit: 50
@@ -162,6 +164,8 @@
     explore: events
     type: looker_google_map
     fields: [events.event__location, events.location_count]
+    filters:
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.location_count desc 0]
     limit: 500
     column_limit: 50
@@ -214,8 +218,9 @@
       events.principal__application, events__target__labels_publisher_category_name.value,
       selectedTopics.metadata__id_derived, selectedTopics.selectedtopics_derived]
     filters:
-      events__about__labels__alert_type_name.value: "-EMPTY"
+      events__about__labels__alert_type_name.value: "-NULL"
       events.principal__application: "-EMPTY"
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [events.event_timestamp_date_time desc]
     limit: 100
     column_limit: 50
@@ -289,6 +294,7 @@
     pivots: [occurrence_trend.occurrence_trend_value]
     filters:
       occurrence_trend.occurrence_trend_value: "-NULL"
+      watchlist_name.watchlist_name_value_filter: "-NULL"
     sorts: [occurrence_trend.occurrence_trend_value, events.event_timestamp_date_time
         desc]
     limit: 5000
