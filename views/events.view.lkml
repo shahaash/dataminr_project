@@ -1,3 +1,29 @@
+view: alert_name_not_null {
+  derived_table: {
+    sql: SELECT
+          events.metadata.id  AS events_metadata__id,
+          events__about__labels__alert_type_name.value  AS events__about__labels__alert_type_name_value
+      FROM datalake.events  AS events
+      LEFT JOIN UNNEST(events.about) as events__about
+      LEFT JOIN UNNEST(labels) as events__about__labels__alert_type_name ON events__about__labels__alert_type_name.key = 'alertType_name'
+      WHERE (events.metadata.log_type = "DATAMINR_ALERT" ) AND (events__about__labels__alert_type_name.value ) IS NOT NULL
+      GROUP BY
+          1,
+          2
+      ORDER BY
+          1 DESC ;;
+  }
+
+  dimension: alert_name_metadata_id {
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+
+  dimension: alert_name {
+    type: string
+    sql: ${TABLE}.events__about__labels__alert_type_name_value ;;
+  }
+}
+
 view: close_proxymity_map {
   derived_table: {
     sql: SELECT
@@ -13104,42 +13130,47 @@ view: events {
     sql: 3956 * 2 * ASIN(SQRT(POW(SIN(0.01745329252 *((${principal__location__region_coordinates__latitude} - 47.6054854) / 2)), 2) + COS(0.01745329252 *(${principal__location__region_coordinates__latitude})) * COS(0.01745329252 *(47.6054854)) * POW(SIN(0.01745329252 *((${principal__location__region_coordinates__longitude} - (-122.3354275)) / 2)), 2))) ;;
   }
 
-  dimension: asset_distance_miles {
+  dimension: min_asset_distance_miles {
     type: number
-    sql: CASE
-        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN ${asset_dis_Dataminr_Newyork}
-        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN ${asset_dis_Dataminr_Bozeman}
-        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN ${asset_dis_Dataminr_Virginia}
-        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN ${asset_dis_Dataminr_Dublin}
-        WHEN ${asset_dis_Dataminr_London} <= 5 THEN ${asset_dis_Dataminr_London}
-        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN ${asset_dis_Dataminr_Melbourne}
-        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN ${asset_dis_Dataminr_Seattle}
-        END ;;
+    sql: LEAST(${asset_dis_Dataminr_Bozeman},${asset_dis_Dataminr_Dublin},${asset_dis_Dataminr_London},${asset_dis_Dataminr_Melbourne},${asset_dis_Dataminr_Newyork},${asset_dis_Dataminr_Seattle},${asset_dis_Dataminr_Virginia}) ;;
   }
 
   dimension: asset_name {
     type: string
     sql: CASE
-        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN 'Dataminr_Newyork'
-        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'Dataminr_Bozeman'
-        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN 'Dataminr_Virginia'
-        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN 'Dataminr_Dublin'
-        WHEN ${asset_dis_Dataminr_London} <= 5 THEN 'Dataminr_London'
-        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'Dataminr_Melbourne'
-        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN 'Dataminr_Seattle'
+        WHEN ${asset_dis_Dataminr_Newyork} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Newyork} <= 5 THEN 'Dataminr_Newyork'
+        WHEN ${asset_dis_Dataminr_Bozeman} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'Dataminr_Bozeman'
+        WHEN ${asset_dis_Dataminr_Virginia} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Virginia} <= 5 THEN 'Dataminr_Virginia'
+        WHEN ${asset_dis_Dataminr_Dublin} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Dublin} <= 5 THEN 'Dataminr_Dublin'
+        WHEN ${asset_dis_Dataminr_London} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_London} <= 5 THEN 'Dataminr_London'
+        WHEN ${asset_dis_Dataminr_Melbourne} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'Dataminr_Melbourne'
+        WHEN ${asset_dis_Dataminr_Seattle} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Seattle} <= 5 THEN 'Dataminr_Seattle'
         END ;;
   }
 
   dimension: asset_type {
     type: string
     sql: CASE
-        WHEN ${asset_dis_Dataminr_Newyork} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_Virginia} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_Dublin} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_London} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'office'
-        WHEN ${asset_dis_Dataminr_Seattle} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Newyork} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Newyork} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Bozeman} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Bozeman} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Virginia} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Virginia} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Dublin} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Dublin} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_London} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_London} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Melbourne} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Melbourne} <= 5 THEN 'office'
+        WHEN ${asset_dis_Dataminr_Seattle} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Seattle} <= 5 THEN 'office'
+        END ;;
+  }
+
+  dimension: asset_distance_miles {
+    type: number
+    sql: CASE
+        WHEN ${asset_dis_Dataminr_Newyork} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Newyork} <= 5 THEN ${asset_dis_Dataminr_Newyork}
+        WHEN ${asset_dis_Dataminr_Bozeman} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Bozeman} <= 5 THEN ${asset_dis_Dataminr_Bozeman}
+        WHEN ${asset_dis_Dataminr_Virginia} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Virginia} <= 5 THEN ${asset_dis_Dataminr_Virginia}
+        WHEN ${asset_dis_Dataminr_Dublin} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Dublin} <= 5 THEN ${asset_dis_Dataminr_Dublin}
+        WHEN ${asset_dis_Dataminr_London} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_London} <= 5 THEN ${asset_dis_Dataminr_London}
+        WHEN ${asset_dis_Dataminr_Melbourne} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Melbourne} <= 5 THEN ${asset_dis_Dataminr_Melbourne}
+        WHEN ${asset_dis_Dataminr_Seattle} = ${min_asset_distance_miles} AND ${asset_dis_Dataminr_Seattle} <= 5 THEN ${asset_dis_Dataminr_Seattle}
         END ;;
   }
 
