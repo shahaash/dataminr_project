@@ -53,7 +53,11 @@
     minimum_column_width: 75
     series_labels:
       events__principal__ip.events__principal__ip__regex: IP Address
+      count_of_metadata_product_log_id: Alert Count
       count_of_metadata_id: Alert Count
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     hidden_pivots: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -141,6 +145,9 @@
       count_of_metadata_id: Alert Count
     series_column_widths:
       events__security_result_for.about__file__hash: 444
+    series_cell_visualizations:
+      alert_count:
+        is_active: false
     hidden_pivots: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -180,6 +187,8 @@
     explore: events
     type: looker_grid
     fields: [events__security_result.about__url__domain, count_of_metadata_id]
+    filters:
+      events__security_result.about__url__domain: "-NULL"
     sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
@@ -220,9 +229,13 @@
     minimum_column_width: 75
     series_labels:
       events__security_result.about__url__domain: Domain
+      count_of_metadata_product_log_id: Alert Count
       count_of_metadata_id: Alert Count
     series_column_widths:
       events__security_result.about__url__domain: 314
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     defaults_version: 1
     hidden_pivots: {}
     listen:
@@ -238,7 +251,7 @@
     type: looker_grid
     fields: [events__security_result__associations.name, count_of_metadata_id]
     filters:
-      events__security_result__associations.name: "-EMPTY"
+      events__security_result__associations.name: "-NULL"
     sorts: [count_of_metadata_id]
     limit: 500
     column_limit: 50
@@ -279,9 +292,13 @@
     minimum_column_width: 75
     series_labels:
       events__security_result__associations.name: Malware
+      count_of_metadata_product_log_id: Alert Count
       count_of_metadata_id: Alert Count
     series_column_widths:
       events__security_result__associations.name: 140
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     defaults_version: 1
     hidden_pivots: {}
     listen:
@@ -295,11 +312,9 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [count_of_hash, events.event_timestamp_date_date]
-    fill_fields: [events.event_timestamp_date_date]
-    filters:
-      hashstaticdata.hash: "-NULL"
-    sorts: [count_of_hash desc 0]
+    fields: [events.event_timestamp_date_date, events__security_result_for.about__file__hash,
+      count_of_metadata_id]
+    sorts: [events.event_timestamp_date_date desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -310,8 +325,16 @@
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
-    hidden_fields: []
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    hidden_fields: [events__security_result_for.about__file__hash]
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     custom_color_enabled: true
     show_single_value_title: false
@@ -350,6 +373,7 @@
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 0
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 2
@@ -361,23 +385,23 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [count_of_hash, events.event_timestamp_date_date]
-    fill_fields: [events.event_timestamp_date_date]
+    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__principal__ip.events__principal__ip__regex]
     filters:
-      hashstaticdata.hash: "-NULL"
-    sorts: [count_of_hash desc 0]
+      events__principal__ip.events__principal__ip__regex: "-NULL"
+    sorts: [events.event_timestamp_date_date desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
-    - measure: count_of_hash
-      based_on: hashstaticdata.hash
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
       expression: ''
-      label: Count of Hash
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
-    hidden_fields: []
+    hidden_fields: [events__principal__ip.events__principal__ip__regex]
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     custom_color_enabled: true
     show_single_value_title: false
@@ -427,11 +451,10 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [count_of_hash, events.event_timestamp_date_date]
-    fill_fields: [events.event_timestamp_date_date]
+    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__security_result.about__url__domain]
     filters:
-      hashstaticdata.hash: "-NULL"
-    sorts: [count_of_hash desc 0]
+      events__security_result.about__url__domain: "-NULL"
+    sorts: [events.event_timestamp_date_date desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -442,8 +465,16 @@
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
-    hidden_fields: []
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    hidden_fields: [events__security_result.about__url__domain]
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     custom_color_enabled: true
     show_single_value_title: false
@@ -482,6 +513,7 @@
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 0
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 2
@@ -493,9 +525,10 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [count_of_malware]
+    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__security_result__associations.name]
     filters:
-      malwarestaticdata.malware: "-NULL"
+      events__security_result__associations.name: "-NULL"
+    sorts: [events.event_timestamp_date_date desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -506,10 +539,19 @@
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
-    hidden_fields: []
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
+      expression: ''
+      label: Count of Metadata ID
+      type: count_distinct
+      _kind_hint: measure
+      _type_hint: number
+    hidden_fields: [events__security_result__associations.name]
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: true
     defaults_version: 0
+    hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 2
