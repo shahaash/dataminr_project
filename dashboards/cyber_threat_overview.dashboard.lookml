@@ -37,6 +37,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     show_row_numbers: true
     transpose: false
@@ -113,8 +114,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events__security_result__category_details.events__security_result__category_details: selectedTopics
+      count_of_metadata_id: count
       events.selectedtopic_count: count
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: true
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
@@ -217,6 +223,7 @@
     reverse_map_value_colors: false
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     map_marker_color: ["#800080"]
     defaults_version: 1
     hidden_pivots: {}
@@ -259,6 +266,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     show_row_numbers: true
     transpose: false
@@ -315,6 +323,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     show_row_numbers: true
     transpose: false
@@ -371,6 +380,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     show_row_numbers: true
     transpose: false
@@ -678,8 +688,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events__security_result__category_details.events__security_result__category_details: selectedTopics
+      count_of_metadata_id: count
       events.selectedtopic_count: count
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: true
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
@@ -769,8 +784,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events__security_result__category_details.events__security_result__category_details: selectedTopics
+      count_of_metadata_id: count
       events.selectedtopic_count: count
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: true
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
@@ -861,8 +881,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events__security_result__category_details.events__security_result__category_details: selectedTopics
+      count_of_metadata_id: count
       events.selectedtopic_count: count
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: true
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
@@ -904,7 +929,7 @@
   - name: Select Time Range
     title: Select Time Range
     type: field_filter
-    default_value: ''
+    default_value: 14 day
     allow_multiple_values: false
     required: false
     ui_config:
