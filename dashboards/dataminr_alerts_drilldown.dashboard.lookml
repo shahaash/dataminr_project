@@ -24,6 +24,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: false
     map_plot_mode: points
     heatmap_gridlines: false
@@ -341,12 +342,16 @@
     minimum_column_width: 75
     series_labels:
       events__principal__ip.events__principal__ip__regex: IP
+      count_of_metadata_product_log_id: count
       events.ip_count: count
       events.ip_count_percent: percent
     series_column_widths:
       events__principal__ip.events__principal__ip__regex: 106.81100000000004
       events.ip_count: 117
       events.ip_count_percent: 126
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     defaults_version: 1
     hidden_pivots: {}
     listen:
@@ -401,9 +406,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events__extensions__vulns__vulnerabilities.cve_id: CVE
       events.ip_count: count
       events.ip_count_percent: percent
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     defaults_version: 1
     listen:
       Select Time Range: events.event_timestamp_date_time
@@ -457,9 +466,13 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
+      count_of_metadata_product_log_id: count
       events.principal__port: Port
       events.ip_count: count
       events.ip_count_percent: percent
+    series_cell_visualizations:
+      count_of_metadata_product_log_id:
+        is_active: false
     defaults_version: 1
     hidden_pivots: {}
     listen:
