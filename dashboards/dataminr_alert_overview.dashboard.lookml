@@ -179,6 +179,7 @@
       _type_hint: number
     hidden_fields: []
     hidden_points_if_no: []
+    series_labels: {}
     show_view_names: true
     map_plot_mode: points
     heatmap_gridlines: false
@@ -255,7 +256,10 @@
       events__target__labels_publisher_category_name.value: Publisher
       events.event_timestamp_date_time: Event Time
       events.src__application: Source
+      company_name_null.company_name_value: Company
+      events__security_result__category_details.events__security_result__category_details: selectedTopics
       selectedTopics.selectedtopics_derived: selectedTopics
+      company_derived.selectedtopics_derived: Company
       company_derived.company_name_derived: Company
     series_column_widths:
       events__about__labels__alert_type_name.value: 77
