@@ -55,12 +55,12 @@ looker.plugins.visualizations.add({
     const estimatedTotalItems = 100;
     const threat_count = count ? data[0][threatcolumn].value:0;
     var threat1_count = 0;
-    if (count != 1) {
+    if (count != 1 && count != 0) {
         threat1_count = data[1][threatcolumn].value
     }
     const threat_count_difference = count ? threat_count - threat1_count:0
     var percentage = 0
-    if (count != 1) {
+    if (count != 1 && count != 0) {
         percentage = count ? ((threat_count_difference / threat1_count) * estimatedTotalItems).toFixed(2):0;
     }
     const arrowIcon = percentage > 0 ? '➚' : '➘';
