@@ -122,6 +122,8 @@
       _type_hint: number
     value_labels: labels
     label_type: labPer
+    start_angle: 180
+    end_angle:
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false

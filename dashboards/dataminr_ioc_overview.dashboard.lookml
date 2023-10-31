@@ -13,7 +13,7 @@
     fields: [events__principal__ip.events__principal__ip__regex, count_of_metadata_id]
     filters:
       events__principal__ip.events__principal__ip__regex: "-NULL"
-    sorts: [count_of_metadata_id]
+    sorts: [count_of_metadata_id desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -85,6 +85,8 @@
     show_silhouette: false
     totals_color: "#808080"
     defaults_version: 1
+    series_column_widths:
+      events__principal__ip.events__principal__ip__regex: 149.42000000000007
     listen:
       Select Time Range: events.event_timestamp_date_time
     row: 8
@@ -99,7 +101,7 @@
     fields: [events__security_result_for.about__file__hash, count_of_metadata_id]
     filters:
       events__security_result_for.about__file__hash: "-EMPTY"
-    sorts: [count_of_metadata_id]
+    sorts: [count_of_metadata_id desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -144,7 +146,7 @@
       events__security_result_for.about__file__hash: Hash
       count_of_metadata_id: Alert Count
     series_column_widths:
-      events__security_result_for.about__file__hash: 444
+      events__security_result_for.about__file__hash: 448
     series_cell_visualizations:
       alert_count:
         is_active: false
@@ -189,7 +191,7 @@
     fields: [events__security_result.about__url__domain, count_of_metadata_id]
     filters:
       events__security_result.about__url__domain: "-NULL"
-    sorts: [count_of_metadata_id]
+    sorts: [count_of_metadata_id desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -232,7 +234,7 @@
       count_of_metadata_product_log_id: Alert Count
       count_of_metadata_id: Alert Count
     series_column_widths:
-      events__security_result.about__url__domain: 314
+      events__security_result.about__url__domain: 170
     series_cell_visualizations:
       count_of_metadata_product_log_id:
         is_active: false
@@ -252,7 +254,7 @@
     fields: [events__security_result__associations.name, count_of_metadata_id]
     filters:
       events__security_result__associations.name: "-NULL"
-    sorts: [count_of_metadata_id]
+    sorts: [count_of_metadata_id desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
