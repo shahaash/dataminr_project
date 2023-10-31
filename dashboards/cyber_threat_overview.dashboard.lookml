@@ -9,7 +9,7 @@
     name: Threat Actor Activities
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
+    type: dataminr_project::ioc_viz
     fields: [events.event_timestamp_date_month, count_of_metadata_id]
     filters:
       events.metadata__description: "-NULL"
@@ -238,7 +238,7 @@
     name: Cyber Attacks
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
+    type: dataminr_project::ioc_viz
     fields: [events.event_timestamp_date_month, count_of_metadata_id]
     filters:
       events.metadata__description: "-NULL"
@@ -295,7 +295,7 @@
     name: Data Breaches
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
+    type: dataminr_project::ioc_viz
     fields: [events.event_timestamp_date_month, count_of_metadata_id]
     filters:
       events.metadata__description: "-NULL"
@@ -351,7 +351,7 @@
     name: Vulnerabilities
     model: dataminr_project
     explore: events
-    type: dataminr_project::test_viz
+    type: dataminr_project::ioc_viz
     fields: [events.event_timestamp_date_month, count_of_metadata_id]
     filters:
       events.metadata__description: "-NULL"
@@ -457,6 +457,7 @@
     hidden_fields: [events__security_result.about__resource__name, events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 12
     col: 0
     width: 12
@@ -515,6 +516,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 12
     col: 12
     width: 12
@@ -574,6 +576,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 18
     col: 12
     width: 12
@@ -632,6 +635,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 18
     col: 0
     width: 12
