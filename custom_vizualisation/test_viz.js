@@ -58,6 +58,7 @@ looker.plugins.visualizations.add({
     if (count != 1 && count != 0) {
         threat1_count = data[1][threatcolumn].value
     }
+    console.log(count);
     const threat_count_difference = count ? threat_count - threat1_count:0
     var percentage = 0
     if (count != 1 && count != 0) {
