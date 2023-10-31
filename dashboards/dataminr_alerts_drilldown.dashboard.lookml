@@ -59,10 +59,10 @@
     title_hidden: true
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 2
@@ -75,17 +75,34 @@
     explore: events
     type: looker_grid
     fields: [events.event_timestamp_in_week, events__security_result__category_details.events__security_result__category_details,
-      count_of_metadata_product_log_id]
+      count_of_metadata_id]
     filters:
       events__security_result__category_details.events__security_result__category_details: "-NULL"
     sorts: [events.event_timestamp_in_week desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
+    - category: table_calculation
+      expression: "${count_of_metadata_id} - offset(${count_of_metadata_id}, -2)"
+      label: Week Trend
+      value_format:
+      value_format_name:
+      _kind_hint: measure
+      table_calculation: week_trend
+      _type_hint: number
+    - category: table_calculation
+      expression: offset(${count_of_metadata_id}, -2)
+      label: p_count
+      value_format:
+      value_format_name:
+      _kind_hint: measure
+      table_calculation: p_count
+      _type_hint: number
+      is_disabled: true
+    - measure: count_of_metadata_id
+      based_on: events.metadata__id
       expression: ''
-      label: Count of Metadata Product Log ID
+      label: Count of Metadata ID
       type: count_distinct
       _kind_hint: measure
       _type_hint: number
@@ -110,24 +127,26 @@
     truncate_header: false
     minimum_column_width: 75
     series_labels:
-      events__security_result__category_details.events__security_result__category_details: Categories
+      events__security_result__category_details.events__security_result__category_details: Topic
       count_of_metadata_product_log_id: Count
       events.event_timestamp_in_week: Time
+      count_of_metadata_id: Count
     series_column_widths:
       events.event_timestamp_in_week: 81.81100000000004
-      events__security_result__category_details.events__security_result__category_details: 491
-      count_of_metadata_product_log_id: 76
+      events__security_result__category_details.events__security_result__category_details: 455
     series_cell_visualizations:
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
+    hidden_fields: [events.event_timestamp_in_week]
+    hidden_pivots: {}
     title_hidden: true
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 2
@@ -182,10 +201,10 @@
     title_hidden: true
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 10
@@ -240,10 +259,10 @@
     hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 19
@@ -290,82 +309,16 @@
     hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 19
     col: 12
     width: 12
     height: 7
-  - title: Top Exploiting IP Addresses
-    name: Top Exploiting IP Addresses
-    model: dataminr_project
-    explore: events
-    type: looker_grid
-    fields: [events__principal__ip.events__principal__ip__regex, events.ip_count,
-      events.ip_count_percent]
-    filters:
-      events__principal__ip.events__principal__ip__regex: "-EMPTY"
-    sorts: [events.ip_count desc 0]
-    limit: 5000
-    column_limit: 50
-    dynamic_fields:
-    - measure: count_of_metadata_product_log_id
-      based_on: events.metadata__product_log_id
-      expression: ''
-      label: Count of Metadata Product Log ID
-      type: count_distinct
-      _kind_hint: measure
-      _type_hint: number
-    show_view_names: false
-    show_row_numbers: true
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    limit_displayed_rows: false
-    enable_conditional_formatting: false
-    header_text_alignment: left
-    header_font_size: '12'
-    rows_font_size: '12'
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    show_sql_query_menu_options: false
-    show_totals: true
-    show_row_totals: true
-    truncate_header: false
-    minimum_column_width: 75
-    series_labels:
-      events__principal__ip.events__principal__ip__regex: IP
-      count_of_metadata_product_log_id: count
-      events.ip_count: count
-      events.ip_count_percent: percent
-    series_column_widths:
-      events__principal__ip.events__principal__ip__regex: 106.81100000000004
-      events.ip_count: 117
-      events.ip_count_percent: 126
-    series_cell_visualizations:
-      count_of_metadata_product_log_id:
-        is_active: false
-    defaults_version: 1
-    hidden_pivots: {}
-    listen:
-      Select Time Range: events.event_timestamp_date_time
-      Source: alerts_by_source.alert_by_source_value_filter
-      Company: company_name.company_name_value
-      Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
-      Topic: events__security_result__category_details.events__security_result__category_details_filter
-      Watchlist: watchlist_name.watchlist_name_value
-    row: 26
-    col: 0
-    width: 8
-    height: 6
   - title: Top Trending CVEs
     name: Top Trending CVEs
     model: dataminr_project
@@ -416,10 +369,10 @@
     defaults_version: 1
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 26
@@ -477,10 +430,10 @@
     hidden_pivots: {}
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
       Source: alerts_by_source.alert_by_source_value_filter
       Company: company_name.company_name_value
       Severity: events__about__labels__alert_type_name.value
-      Location: events.principal__location__country_or_region
       Topic: events__security_result__category_details.events__security_result__category_details_filter
       Watchlist: watchlist_name.watchlist_name_value
     row: 26
@@ -498,6 +451,57 @@
     col: 0
     width: 24
     height: 2
+  - title: Top Exploiting IP Addresses
+    name: Top Exploiting IP Addresses
+    model: dataminr_project
+    explore: events
+    type: looker_grid
+    fields: [events.ip_count, events.ip_count_percent, events__principal__ip.events__principal__ip__regex]
+    filters:
+      events__principal__ip.events__principal__ip__regex: "-NULL"
+    sorts: [events.ip_count desc 0]
+    limit: 500
+    column_limit: 50
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    truncate_header: false
+    minimum_column_width: 75
+    series_labels:
+      events.ip_count: count
+      events__principal__ip.events__principal__ip__regex: IP
+      events.ip_count_percent: percent
+    series_cell_visualizations:
+      events.ip_count:
+        is_active: false
+    defaults_version: 1
+    listen:
+      Select Time Range: events.event_timestamp_date_time
+      Location: events.principal__location__country_or_region
+      Source: alerts_by_source.alert_by_source_value_filter
+      Company: company_name.company_name_value
+      Severity: events__about__labels__alert_type_name.value
+      Topic: events__security_result__category_details.events__security_result__category_details_filter
+      Watchlist: watchlist_name.watchlist_name_value
+    row: 26
+    col: 0
+    width: 8
+    height: 6
   filters:
   - name: Select Time Range
     title: Select Time Range
