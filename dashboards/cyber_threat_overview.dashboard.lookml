@@ -457,6 +457,7 @@
     hidden_fields: [events__security_result.about__resource__name, events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 12
     col: 0
     width: 12
@@ -515,6 +516,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 12
     col: 12
     width: 12
@@ -574,6 +576,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 18
     col: 12
     width: 12
@@ -632,6 +635,7 @@
     hidden_fields: [events.metadata__product_log_id]
     listen:
       Select Time Range: events.event_timestamp_date_time
+      Watchlist: watchlist_name.watchlist_name_value
     row: 18
     col: 0
     width: 12
