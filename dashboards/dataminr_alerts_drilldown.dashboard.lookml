@@ -78,12 +78,17 @@
       count_of_metadata_id]
     filters:
       events__security_result__category_details.events__security_result__category_details: "-NULL"
-    sorts: [events.event_timestamp_in_week desc]
-    limit: 500
+    sorts: [events__security_result__category_details.events__security_result__category_details,
+      events.event_timestamp_in_week desc]
+    limit: 5000
     column_limit: 50
     dynamic_fields:
     - category: table_calculation
-      expression: "${count_of_metadata_id} - offset(${count_of_metadata_id}, -2)"
+      expression: if(${events__security_result__category_details.events__security_result__category_details}
+        = offset(${events__security_result__category_details.events__security_result__category_details},-2),
+        ${count_of_metadata_id} - offset(${count_of_metadata_id}, -2), if (${events__security_result__category_details.events__security_result__category_details}
+        = offset(${events__security_result__category_details.events__security_result__category_details},-1),
+        ${count_of_metadata_id} - offset(${count_of_metadata_id}, -1),null))
       label: Week Trend
       value_format:
       value_format_name:
@@ -91,14 +96,17 @@
       table_calculation: week_trend
       _type_hint: number
     - category: table_calculation
-      expression: offset(${count_of_metadata_id}, -2)
+      expression: if(${events__security_result__category_details.events__security_result__category_details}
+        = offset(${events__security_result__category_details.events__security_result__category_details},-2),
+        offset(${count_of_metadata_id}, -2), if (${events__security_result__category_details.events__security_result__category_details}
+        = offset(${events__security_result__category_details.events__security_result__category_details},-1),
+        offset(${count_of_metadata_id}, -1),null))
       label: p_count
       value_format:
       value_format_name:
       _kind_hint: measure
       table_calculation: p_count
       _type_hint: number
-      is_disabled: true
     - measure: count_of_metadata_id
       based_on: events.metadata__id
       expression: ''
@@ -133,12 +141,12 @@
       count_of_metadata_id: Count
     series_column_widths:
       events.event_timestamp_in_week: 81.81100000000004
-      events__security_result__category_details.events__security_result__category_details: 455
+      events__security_result__category_details.events__security_result__category_details: 410
     series_cell_visualizations:
       count_of_metadata_product_log_id:
         is_active: false
     defaults_version: 1
-    hidden_fields: [events.event_timestamp_in_week]
+    hidden_fields: [events.event_timestamp_in_week, p_count]
     hidden_pivots: {}
     title_hidden: true
     listen:

@@ -29979,6 +29979,26 @@ view: alerts_by_source {
   }
 }
 
+view: descending_date {
+  derived_table: {
+    sql: SELECT
+    (FORMAT_TIMESTAMP('%F', TIMESTAMP_TRUNC(TIMESTAMP_SECONDS(events.metadata.event_timestamp.seconds ), WEEK(MONDAY)))) AS events_event_timestamp_in_week,
+    events.metadata.id  AS events_metadata__id
+    FROM `datalake.events`  AS events
+    WHERE (events.metadata.log_type = "DATAMINR_ALERT" )
+    ORDER BY
+        1 DESC ;;
+  }
+  dimension: descending_date_id {
+    type: string
+    sql: ${TABLE}.events_metadata__id ;;
+  }
+  dimension: descending_date_week {
+    type: string
+    sql: ${TABLE}.events_event_timestamp_in_week ;;
+  }
+}
+
 view: company_name {
   derived_table: {
     sql: SELECT
