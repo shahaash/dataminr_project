@@ -1,151 +1,79 @@
-// Use Looker's Visualization API
 looker.plugins.visualizations.add({
-    id: 'display_count',
-    label: 'Display Count',
-    create: function(element, config) {
-      // Create a container for the count value
-      this.container = element.appendChild(document.createElement("div"));
-      this.container.setAttribute("id", "count-line-container");
-
-      // Applying Styling to the container
-      this.container.style.fontWeight = "bold";
-      this.container.style.textAlign = "center";
-      this.container.style.padding = "25px";
-      this.container.style.display = "flex";
-      this.container.style.flexDirection = "column";
-      this.container.style.alignItems = "center";
-
-      // Create a container for the text line
-      this.textContainer = element.appendChild(document.createElement("div"));
-      this.textContainer.setAttribute("id", "text-line-container");
-      this.textContainer.style.fontSize = "16px";
-      this.textContainer.style.textAlign = "center";
-      this.textContainer.style.padding = "5px";
-      this.textContainer.style.fontFamily = "Arial";
-
-
-     // Create a container element for your chart
-      this.parentNode = document.createElement("div");
-      this.parentNode.style.display = "flex";
-      this.parentNode.style.flexDirection = "column";
-      this.parentNode.style.alignItems = "center";
-      this.chart_container = document.createElement("canvas")
-      this.chart_container.className = "line-chart-container";
-      this.parentNode.appendChild(this.chart_container);
-      element.appendChild(this.parentNode);
-
-    },
-
-    updateAsync: function(data, element, config, queryResponse, details, done) {
-      var threatcolumn = queryResponse.fields.measure_like[0].name
-      // Calculate the count value from the data
-      const count = data.length;
-      let list=[]
-      let list1=[]
-      for (var i of queryResponse.fields.measures) {
-        var th = document.createElement('th');
-        list.push(i.name);
-      }
-      data.forEach(function (row) {
-        Object.keys(row).forEach(function (key) {
-          list1.push(row[key].value);
-        });
-      });
-      // Calculate the percentage value based on the available count
-      const estimatedTotalItems = 100;
-      const threat_count = count ? data[0][threatcolumn].value:0;
-      var threat1_count = 0;
-      if (count != 1) {
-          threat1_count = data[1][threatcolumn].value
-      }
-      const threat_count_difference = count ? threat_count - threat1_count:0
-      var percentage = 0
-      if (count != 1) {
-          percentage = count ? ((threat_count_difference / threat1_count) * estimatedTotalItems):0;
-      }
-      const arrowIcon = percentage > 0 ? '➚' : '➘';
-
-      var color;
-      if (percentage <= 0) {
-        color = 'green';
-      }
-      else {
-        color = 'red';
-      }
-
-      // Display the count and percentage value in the container
-      this.container.innerHTML = `
-        <div style="display: flex; align-items: center;">
-          <div style="font-size: 60px; font-family: Arial, Helvetica, sans-serif;">${threat_count}</div>
-          <div style="display: flex; flex-direction: column; align-items: flex-start;">
-            <div style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; color: ${color};">${arrowIcon}</div>
-            <div style="font-size: 20px; text-align: right; font-family: Arial, Helvetica, sans-serif; color: ${color};">${percentage}%</div>
-          </div>
-        </div>
-      `;
-
-      // Display the text line below the count value
-      this.textContainer.textContent = "Today vs Yesterday";
-      this.textContainer.style.fontSize = "12px";
-      this.textContainer.style.fontFamily = "Arial, Helvetica, sans-serif";
-
-      // Extract data from Looker's query response
-      var labels = [];
-      var datasets = [];
-
-      var xField = queryResponse.fields.dimension_like[0].name;
-      var yField = queryResponse.fields.measure_like[0].name;
-
-      // Populate labels and datasets based on your data model
-      data.forEach(function(row) {
-        datasets.push(row[yField].value ? row[yField].value : 0);
-        labels.push(row[xField].value);
-      });
-
-
-      // Initialize a Chart.js instance
-        var ctx = this.chart_container;
-        if (this.chart) {
-          this.chart.destroy();
-        }
-        this.chart = new Chart(ctx, {
-          type: "line", // Specify the chart type as a line chart
-          data: {
-            labels: labels,
-            datasets: [{
-              label: null,
-              data: datasets,
-              fill: false,
-              borderColor: color,
-              pointRadius: 0,
-              tension: 0.1
-            }],
-          },
-          options: {
-            responsive: false,
-            maintainAspectRatio: true,
-            scales: {
-              x: {
-                display: false, // Hide the X-axis
-              },
-              y: {
-                display: false, // Hide the Y-axis
-              },
-            },
-            plugins: {
-                legend: {
-                      display: false,
-                }
-            }
-          },
-        });
-
-      this.chart.canvas.style.height = '50px';
-      this.chart.canvas.style.width = '200px';
-      // Update the chart
-      this.chart.update();
-
-      // Signal the completion of rendering
-      done();
+  // Id and Label are legacy properties that no longer have any function besides documenting
+  // what the visualization used to have. The properties are now set via the manifest
+  // form within the admin/visualizations page of Looker
+  id: "hello_world",
+  label: "Hello World",
+  options: {
+    font_size: {
+      type: "string",
+      label: "Font Size",
+      values: [
+        {"Large": "large"},
+        {"Small": "small"}
+      ],
+      display: "radio",
+      default: "large"
     }
-  });
+  },
+  // Set up the initial state of the visualization
+  create: function(element, config) {
+
+    // Insert a <style> tag with some styles we'll use later.
+    element.innerHTML = `
+      <style>
+        .hello-world-vis {
+          /* Vertical centering */
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+        }
+        .hello-world-text-large {
+          font-size: 72px;
+        }
+        .hello-world-text-small {
+          font-size: 18px;
+        }
+      </style>
+    `;
+
+    // Create a container element to let us center the text.
+    var container = element.appendChild(document.createElement("div"));
+    container.className = "hello-world-vis";
+
+    // Create an element to contain the text.
+    this._textElement = container.appendChild(document.createElement("div"));
+
+  },
+  // Render in response to the data or settings changing
+  updateAsync: function(data, element, config, queryResponse, details, done) {
+
+    // Clear any errors from previous updates
+    this.clearErrors();
+
+    // Throw some errors and exit if the shape of the data isn't what this chart needs
+    if (queryResponse.fields.dimensions.length == 0) {
+      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
+      return;
+    }
+
+    // Grab the first cell of the data
+    var firstRow = data[0];
+    var firstCell = firstRow[queryResponse.fields.dimensions[0].name];
+
+    // Insert the data into the page
+    this._textElement.innerHTML = LookerCharts.Utils.htmlForCell(firstCell);
+
+    // Set the size to the user-selected size
+    if (config.font_size == "small") {
+      this._textElement.className = "hello-world-text-small";
+    } else {
+      this._textElement.className = "hello-world-text-large";
+    }
+
+    // We are done rendering! Let Looker know.
+    done()
+  }
+});
