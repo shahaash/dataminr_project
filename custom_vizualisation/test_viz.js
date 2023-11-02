@@ -61,7 +61,7 @@ looker.plugins.visualizations.add({
     const threat_count_difference = threat_count - threat1_count;
     var percentage = 0;
     if (count != 1) {
-        percentage = count ? ((threat_count_difference / threat1_count) * estimatedTotalItems):0;
+        percentage = count ? Math.trunc((threat_count_difference / threat1_count) * estimatedTotalItems):0;
     }
     const arrowIcon = percentage > 0 ? '➚' : '➘';
 

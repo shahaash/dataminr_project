@@ -63,7 +63,7 @@ looker.plugins.visualizations.add({
     const ioc_count_difference = ioc_value - ioc1_value;
     var percentage = 0;
     if (count != 1) {
-        percentage = count ? ((ioc_count_difference / ioc1_value) * estimatedTotalItems):0;
+        percentage = count ? Math.trunc((ioc_count_difference / ioc1_value) * estimatedTotalItems):0;
     }
     const arrowIcon = percentage > 0 ? '➚' : '➘';
 
