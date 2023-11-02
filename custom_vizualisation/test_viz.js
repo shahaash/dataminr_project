@@ -55,6 +55,7 @@ looker.plugins.visualizations.add({
     const estimatedTotalItems = 100;
     const threat_count = count ? data[0][threatcolumn].value:0;
     var threat1_count = 0;
+    console.log("testing...")
     if (count != 1) {
         threat1_count = count ? data[1][threatcolumn].value:0;
     }
