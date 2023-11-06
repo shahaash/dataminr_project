@@ -451,7 +451,6 @@
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: '[{"type":"h3","children":[{"text":"An overview of your Dataminr alerts
       stored in Splunk."}]}]'
     rich_content_json: '{"format":"slate"}'
@@ -468,7 +467,7 @@
     filters:
       events__principal__ip.events__principal__ip__regex: "-NULL"
     sorts: [events.ip_count desc 0]
-    limit: 500
+    limit: 5000
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
