@@ -314,9 +314,11 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [events.event_timestamp_date_date, events__security_result_for.about__file__hash,
+    fields: [events.event_timestamp_date_time, events__security_result_for.about__file__hash,
       count_of_metadata_id]
-    sorts: [events.event_timestamp_date_date desc]
+    filters:
+      events__security_result_for.about__file__hash: "-NULL"
+    sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -387,10 +389,11 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__principal__ip.events__principal__ip__regex]
+    fields: [events.event_timestamp_date_time, events__principal__ip.events__principal__ip__regex,
+      count_of_metadata_id]
     filters:
       events__principal__ip.events__principal__ip__regex: "-NULL"
-    sorts: [events.event_timestamp_date_date desc]
+    sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -453,10 +456,11 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__security_result.about__url__domain]
+    fields: [events.event_timestamp_date_time, events__security_result.about__url__domain,
+      count_of_metadata_id]
     filters:
       events__security_result.about__url__domain: "-NULL"
-    sorts: [events.event_timestamp_date_date desc]
+    sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -527,10 +531,11 @@
     model: dataminr_project
     explore: events
     type: dataminr_project::ioc_viz
-    fields: [events.event_timestamp_date_date, count_of_metadata_id, events__security_result__associations.name]
+    fields: [events.event_timestamp_date_time, events__security_result__associations.name,
+      count_of_metadata_id]
     filters:
       events__security_result__associations.name: "-NULL"
-    sorts: [events.event_timestamp_date_date desc]
+    sorts: [events.event_timestamp_date_time desc]
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -563,7 +568,6 @@
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: '[{"type":"h3","children":[{"text":"This dashboards shows Indicator
       of Compromise in the current Splunk environment."}],"id":1697018359819}]'
     rich_content_json: '{"format":"slate"}'
