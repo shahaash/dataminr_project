@@ -1,4 +1,3 @@
----
 - dashboard: dataminr_ioc_overview
   title: Dataminr IOC Overview
   layout: newspaper
