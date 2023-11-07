@@ -40,7 +40,7 @@ GROUP BY
     1,
     2,
     3
-        UNION ALL select 'Dataminr_newyork' as events__about__labels__alert_type_name_value, 40.745900 as events_principal__location__region_coordinates__latitude, -73.983940 as events_principal__location__region_coordinates__longitude
+        UNION ALL select 'Dataminr_Newyork' as events__about__labels__alert_type_name_value, 40.745900 as events_principal__location__region_coordinates__latitude, -73.983940 as events_principal__location__region_coordinates__longitude
         UNION ALL select 'Dataminr_Bozeman' as events__about__labels__alert_type_name_value, 45.6794878 as events_principal__location__region_coordinates__latitude, -111.0398014 as events_principal__location__region_coordinates__longitude
           UNION ALL select 'Dataminr_Virginia' as events__about__labels__alert_type_name_value, 38.8940199 as events_principal__location__region_coordinates__latitude, -77.0683043 as events_principal__location__region_coordinates__longitude
           UNION ALL select 'Dataminr_Dublin' as events__about__labels__alert_type_name_value, 53.3458505 as events_principal__location__region_coordinates__latitude, -6.245248 as events_principal__location__region_coordinates__longitude
@@ -29793,7 +29793,7 @@ ORDER BY
 
 view: csvstaticdata {
   derived_table: {
-    sql: select 'Dataminr_newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
+    sql: select 'Dataminr_Newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
     UNION ALL select 'Dataminr_Bozeman' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,131 W Main St, Unit D, Bozeman, MT 59715' as asset_description, '5' as alerting_distance_miles, '45.6794878' as asset_lat, '-111.0398014' as asset_long
     UNION ALL select 'Dataminr_Virginia' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,2101 Wilson Blvd #1002,Arlington, VA 22201,United States' as asset_description, '5' as alerting_distance_miles, '38.8940199 ' as asset_lat, '-77.0683043' as asset_long
     UNION ALL select 'Dataminr_Dublin' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,2 Windmill Lane,D02 K156, Dublin, Ireland' as asset_description, '5' as alerting_distance_miles, '53.3458505  ' as asset_lat, '-6.245248' as asset_long
@@ -30162,7 +30162,7 @@ view: occurrence_trend {
 
 view: iocs_derived {
   derived_table: {
-    sql: select 'Dataminr_newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
+    sql: select 'Dataminr_Newyork' as asset_name, 'Office' as asset_type, 'Dataminr Inc.,135 Madison Ave Floor 10, New York, NY 10016,United States' as asset_description, '5' as alerting_distance_miles, '40.745900' as asset_lat, '-73.983940' as asset_long
           UNION all select 'Dataminr_Bozeman', 'Office', 'Dataminr Inc.,131 W Main St, Unit D, Bozeman, MT 59715', '5', '45.6794878', '-111.0398014'
           UNION all select 'Dataminr_Virginia', 'Office', 'Dataminr Inc.,2101 Wilson Blvd #1002,Arlington, VA 22201,United States', '5', '38.8940199 ', '-77.0683043'
           UNION all select 'Dataminr_Dublin', 'Office', 'Dataminr Inc.,2 Windmill Lane,D02 K156, Dublin, Ireland', '5', '53.3458505  ', '-6.245248'
