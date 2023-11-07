@@ -1,3 +1,4 @@
+---
 - dashboard: dataminr_ioc_overview
   title: Dataminr IOC Overview
   layout: newspaper
@@ -88,7 +89,7 @@
     series_column_widths:
       events__principal__ip.events__principal__ip__regex: 149.42000000000007
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 8
     col: 0
     width: 6
@@ -178,7 +179,7 @@
     totals_color: "#808080"
     defaults_version: 1
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 8
     col: 6
     width: 6
@@ -241,7 +242,7 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 8
     col: 12
     width: 6
@@ -304,7 +305,7 @@
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 8
     col: 18
     width: 6
@@ -371,7 +372,7 @@
     totals_color: "#808080"
     defaults_version: 0
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 2
     col: 0
     width: 6
@@ -447,7 +448,7 @@
     totals_color: "#808080"
     defaults_version: 0
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 2
     col: 6
     width: 6
@@ -513,7 +514,7 @@
     totals_color: "#808080"
     defaults_version: 0
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 2
     col: 12
     width: 6
@@ -579,14 +580,14 @@
     totals_color: "#808080"
     defaults_version: 0
     listen:
-      Event Timestamp Date Time: events.event_timestamp_date_time
+      Select Time Range: events.event_timestamp_date_time
     row: 2
     col: 18
     width: 6
     height: 6
   filters:
-  - name: Event Timestamp Date Time
-    title: Event Timestamp Date Time
+  - name: Select Time Range
+    title: Select Time Range
     type: field_filter
     default_value: 7 day
     allow_multiple_values: true
