@@ -6,9 +6,9 @@ constant: CHRONICLE_URL{
 }
 
 visualization: {
-  id: "test_viz"
-  label: "test_viz"
-  file: "custom_vizualisation/test_viz.js"
+  id: "cyber_viz"
+  label: "cyber_viz"
+  file: "custom_vizualisation/cyber_viz.js"
   dependencies: [
     "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.js",
